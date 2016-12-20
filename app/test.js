@@ -9,3 +9,5 @@ function onDbLoaded(db) {
 		return new Movie(obj, db.meta[index], critics);
 	});
 }
+
+setTimeout(onDbLoaded, 1000, db);
