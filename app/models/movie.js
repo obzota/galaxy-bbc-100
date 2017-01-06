@@ -17,13 +17,14 @@ function Movie(
 
 	this.rankings = [];
 	// Loop over the critics for double link 'movie <-> critic'
-	// TODO: compute the global score of the film according to the rankings
 	var that = this;
+	this.score = 1; // avoid '0' for log scale
 	_.each(critics, function (critic, index, list) {
 		var rank = +object[critic.critic_id]; // '+' cast the value from string to integer
 		if (rank != 0) { // '0' means not rated by this critic
 			that.rankings.push(new Ranking(critic, rank));
 			critic.topTen[rank-1] = that;
+			that.score += 11 - rank;
 		}
 	});
 }
@@ -32,4 +33,30 @@ function Movie(
 // "Drama, Western" -> ["Drama", "Western"]
 Movie.prototype.parseGenre = function(string) {
 	return "TODO: implement parser for Genre";
+};
+
+Movie.prototype.pos = function() {
+	if (!this.position || !this.farPosition) {
+		console.log("[WARNING] no position found for movie: " + this.title);
+		return 0;
+	}
+	return {
+		x: this.position.get2DCoords().x,
+		y: this.position.get2DCoords().y,
+		farX: this.farPosition.get2DCoords().x,
+		farY: this.farPosition.get2DCoords().y
+	};
+};
+
+Movie.prototype.histo = function() {
+	var values = _.map(
+		this.rankings,
+		(r) => (r.rank)
+	);
+
+	return d3.histogram()(values);
+};
+
+compareMovies = function(a,b) {
+	return a.score - b.score;
 };

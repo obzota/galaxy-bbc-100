@@ -2,6 +2,9 @@
 <html>
 <head>
 	<title>Galaxy BBC 100</title>
+
+	<link rel="shortcut icon" href="favicon.ico" />
+
 	<script type="text/javascript" src="../lib/underscore.js"></script>
 	<script type="text/javascript" src="../lib/d3.v4.js"></script>
 
@@ -10,11 +13,17 @@
 	<script type="text/javascript" src="../models/movie.js"></script>
 	<script type="text/javascript" src="../models/ranking.js"></script>
 
+	<script type="text/javascript" src="../scene/scene.js"></script>
+	<script type="text/javascript" src="../scene/gravity.js"></script>
+
 	<script type="text/javascript" src="../test.js"></script>
 </head>
 <body>
 
-	<canvas id="screen"></canvas>
+	<svg id="scene" width="1000" height="1000">
+		<g id="movies"></g>
+		<g id="critics"></g>
+	</svg>
 
 </body>
 </html>

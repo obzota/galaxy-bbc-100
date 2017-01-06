@@ -8,6 +8,13 @@ function onDbLoaded(db) {
 	movies = _.map(db.movies, function (obj, index, movies) {
 		return new Movie(obj, db.meta[index], critics);
 	});
+	scene = new Scene(movies, critics);
+	scene.drawGalaxy();
 }
 
-setTimeout(onDbLoaded, 1000, db);
+setTimeout(onDbLoaded, 1000, db); // ensure the db is loaded when we start using it
+
+function draw() {
+	requestAnimationFrame(draw)
+	scene.draw();
+}
