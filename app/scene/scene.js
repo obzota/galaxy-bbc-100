@@ -87,3 +87,10 @@ Scene.prototype.resize = function(width, heigth) {
 
 	this.scale.range([0, this.size]);
 };
+
+Scene.prototype.displayMovieInfo = function(movie)
+{
+		var template = $("#template")[0].innerHTML;
+		var output = Mustache.render(template, movie);	
+		$("#sidebar")[0].innerHTML = output;
+}
