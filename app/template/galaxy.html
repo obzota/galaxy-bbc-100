@@ -7,7 +7,7 @@
 
 	<script type="text/javascript" src="../lib/underscore.js"></script>
 	<script type="text/javascript" src="../lib/d3.v4.js"></script>
-		<script type="text/javascript" src="../lib/mustache.js"></script>
+	<script type="text/javascript" src="../lib/mustache.js"></script>
 
 	<script type="text/javascript" src="../models/critic.js"></script>
 	<script type="text/javascript" src="../models/database.js"></script>
@@ -25,7 +25,6 @@
 			  crossorigin="anonymous">
 	</script>
 	
-	
 	    <link href="../template/galaxy.css" rel="stylesheet">
 </head>
 <body>
@@ -33,7 +32,7 @@
 <div id="template" style="display : none">
 <div>
 	<div >
-		<img src={{poster}} alt="Poster">
+		<img src={{poster}} alt="Poster not available">
 	</div>
 	 <ul>
 		<li><button type="button">{{title}}</button></li>
@@ -41,12 +40,14 @@
 		<li><button type="button">{{year}}</button></li>
 		<li><button type="button">{{genre}}</button></li> <!-- TODO make a button by genre -->
 	</ul> 
-	</div>
-	<div id="histogramme"> <!--will be renderer by D3-->
-	{{histogram}}
-	</div>
 </div>
+
+
+	</div>
+	
 </div>
+
+
 
 <div class ="main">
 	<svg id="scene" width="1000" height="1000">
@@ -57,9 +58,26 @@
 	
 	
 	<div id="sidebar" class="sidebar"> <!-- will be rendered with the template-->
-	
 	</div>
+	<div id="chart" class="chart sidebar">		</div>
 
 
 </body>
+
+<!--<script>
+
+var data = [4, 8, 15, 16, 23, 42];
+
+var x = d3.scaleLinear()
+    .domain([0, d3.max(data)])
+    .range([0, 400]);
+
+d3.select(".chart")
+  .selectAll("div")
+    .data(data)
+  .enter().append("div")
+    .style("width", function(d) { return x(d) + "px"; })
+    .text(function(d) { return d; });
+
+</script>-->
 </html>

@@ -32,7 +32,7 @@ function Movie(
 	this.histogram = this.histo();
 }
 
-// DID: implement/find parser string to array
+// DONE: implement/find parser string to array
 // "Drama, Western" -> ["Drama", "Western"]
 Movie.prototype.parseGenre = function(string) {
 	var res = string.split(", "); 
@@ -57,9 +57,10 @@ Movie.prototype.histo = function() {
 		this.rankings,
 		(r) => (r.rank)
 	);
-
+	//return values;
 	return d3.histogram()(values);
 };
+
 
 compareMovies = function(a,b) {
 	return a.score - b.score;

@@ -97,6 +97,21 @@ Scene.prototype.displayMovieInfo = function(movie)
 		var template = $("#template")[0].innerHTML;
 		var output = Mustache.render(template, movie);	
 		$("#sidebar")[0].innerHTML = output;
+	
+	var data = movie.histogram;
+
+var x = d3.scaleLinear()
+    .domain([0, d3.max(data)])
+    .range([0, 100]);
+
+d3.select(".chart")
+  .selectAll("div")
+    .data(data)
+  .enter().append("div")
+    .style("width", function(d) { return 10 + "px"; })
+	 .style("height", function(d) { return x(d.length) + "px"; })
+    .text(function(d) { return d[0]; });
+		
 }
 
 Scene.prototype.hideMovieInfo = function()
