@@ -6,7 +6,7 @@ function Scene(movies, critics) {
 	this.movie = null;
 	this.size = 1000; // in pixels
 	this.scaling = 1;
-
+this.movieIsSelected = false;
 	this.scale = d3.scaleLinear()
 		.domain([-1,1])
 		.range([10,990]);
@@ -16,6 +16,7 @@ function Scene(movies, critics) {
 
 Scene.prototype.drawGalaxy = function() {
 	this.movie = null;
+	this.movieIsSelected = false;
 
 	var that = this;
 	var solarSystems = this.selectMovies(movies); // = d3.select('#movies').selectAll('circle').data(movies, keyFunc)
@@ -28,6 +29,8 @@ Scene.prototype.drawGalaxy = function() {
 		    .attr('cy', function(movie) {return that.scale(movie.pos().farY)});
 	enter.merge(solarSystems)
 		    .on('click', function(movie) {that.drawSystem(movie)})
+			.on('mouseenter', function(movie) {that.displayMovieInfo(movie)})
+			.on('mouseleave', function(movie) {that.hideMovieInfo()})
 		    .attr('data-title', function(movie) {return movie.title})
 		.transition().duration(1000)
 			.attr('cx', function(movie) {return that.scale(movie.pos().x)})
@@ -35,6 +38,7 @@ Scene.prototype.drawGalaxy = function() {
 }
 
 Scene.prototype.drawSystem = function(movie) {
+	this.movieIsSelected = true;
 	this.movie = movie;
 Scene.prototype.displayMovieInfo(movie);
 	var that = this;
@@ -93,4 +97,12 @@ Scene.prototype.displayMovieInfo = function(movie)
 		var template = $("#template")[0].innerHTML;
 		var output = Mustache.render(template, movie);	
 		$("#sidebar")[0].innerHTML = output;
+}
+
+Scene.prototype.hideMovieInfo = function()
+{	
+if(!this.movieIsSelected)
+{
+		$("#sidebar")[0].innerHTML = null
+}
 }

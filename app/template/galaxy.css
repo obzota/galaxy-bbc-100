@@ -3,12 +3,48 @@
 }
 
 .sidebar {
-	font-size : 20px;
-	color : blue;
     width: 25%;
     float: left;
+	border-style: solid ;
+	border-width : 3px;
+	border-color : black;
+	
+	padding : 10px;
 }
+
+button {
+	font-size : 25px;
+    background-color: white;
+    color: black;
+    border: 2px solid black; /* Green */
+	
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+	width : 100%;
+}
+
+button:hover {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+img {
+    display: block;
+    margin: auto;
+    width: 50%;
+	padding-top : 15px;
+}
+
 .main {
     width: 75%;
     float: left;
+	
+	border-style: solid ;
+	border-width : 3px;
+	border-color : black;
+}
+
+ul {
+	list-style-type :none;
+	padding : 0px;
 }

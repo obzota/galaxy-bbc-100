@@ -13,6 +13,7 @@ function Movie(
 	// TODO: find useful field to add (from meta.csv)
 	this.poster = meta.Poster;
 	this.genre = this.parseGenre(meta.Genre);
+	
 	// ...
 
 	this.rankings = [];
@@ -27,12 +28,15 @@ function Movie(
 			that.score += 11 - rank;
 		}
 	});
+	
+	this.histogram = this.histo();
 }
 
-// TODO: implement/find parser string to array
+// DID: implement/find parser string to array
 // "Drama, Western" -> ["Drama", "Western"]
 Movie.prototype.parseGenre = function(string) {
-	return "TODO: implement parser for Genre";
+	var res = string.split(", "); 
+	return res;
 };
 
 Movie.prototype.pos = function() {
