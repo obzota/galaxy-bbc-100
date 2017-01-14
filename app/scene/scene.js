@@ -36,7 +36,7 @@ Scene.prototype.drawGalaxy = function() {
 
 Scene.prototype.drawSystem = function(movie) {
 	this.movie = movie;
-
+Scene.prototype.displayMovieInfo(movie);
 	var that = this;
 	var solarSystems = this.selectMovies([movie]);
 	solarSystems
