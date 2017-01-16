@@ -18,17 +18,18 @@ Scene.prototype.drawGalaxy = function() {
 	this.movie = null;
 	this.movieIsSelected = false;
 
-
 	var that = this;
 	// TODO: discuss radio buttons
 	var selectGenre = true;
 	//selectGenre = that.drawColorButtons();
 
 	var solarSystems = this.selectMovies(movies); // = d3.select('#movies').selectAll('circle').data(movies, keyFunc)
-	var enter = solarSystems.enter().append('circle'); // append new circles for movies
+	var enter = solarSystems.enter().append('circle'); // append new circles for 
+movies
 	enter
 			.classed('movie', true)
-		    .style('fill', function(movie) {return movie.color(selectGenre)}) // TODO: pass the value of the radio button of the matrix
+		    .style('fill', function(movie) {return movie.color(selectGenre)}) 
+			//TODO: pass the value of the radio button of the matrix
 		    .attr('r', 3) // TODO: compute radius/choose data for radius ?
 		    .attr('cx', function(movie) {return that.scale(movie.pos().farX)})
 		    .attr('cy', function(movie) {return that.scale(movie.pos().farY)});
@@ -105,7 +106,7 @@ Scene.prototype.displayMovieInfo = function(movie)
 		$("#sidebar")[0].innerHTML = output;
 
 	var data = movie.histogram;
-var width = 100,
+	var width = 100,
     height = 100;
 
 	
@@ -127,7 +128,8 @@ x.domain(data.map(function(d) { return d[0]; }));
   var bar = chart.selectAll("g")
       .data(data)
     .enter().append("g")
-      .attr("transform", function(d, i) { return "translate(" + i * barWidth + ",0)"; })
+      .attr("transform", function(d, i) { return "translate(" + i * barWidth + 
+",0)"; })
 	.append("rect")
       .attr("y", function(d) { return y(d.length); })
       .attr("height", function(d) { return height - y(d.length); })
@@ -142,14 +144,6 @@ x.domain(data.map(function(d) { return d[0]; }));
 var x = d3.scaleLinear()
     .domain([0, d3.max(data)])
     .range([0, 100]);
-
-/*d3.select(".chart")
-  .selectAll("div")
-    .data(data)
-  .enter().append("div")
-    .style("width", function(d) { return x(d.length) + "px"; })
-    .text(function(d) { return d[0]; });*/
-
 }
 function type(d) {
   d.value = +d.length; // coerce to number
@@ -163,7 +157,7 @@ Scene.prototype.hideMovieInfo = function()
 	if(!this.movieIsSelected)
 	{
 		$("#sidebar")[0].innerHTML = null;
-		$("#histo")	.innerHTML = null;
+		$("#svgHisto")[0].innerHTML = null;
 	}
 }
 
