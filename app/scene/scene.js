@@ -108,6 +108,10 @@ Scene.prototype.displayMovieInfo = function(movie)
 var width = 100,
     height = 100;
 
+	
+var x = d3.scaleOrdinal()
+    .range([0, width], .1);
+	
 var y = d3.scaleLinear()
     .range([height, 0]);
 
@@ -115,7 +119,9 @@ var chart = d3.select(".chart")
     .attr("width", width)
     .attr("height", height);
 
-
+x.domain(data.map(function(d) { return d[0]; }));
+  y.domain([0, d3.max(data, function(d) { return d.length; })]);
+  
   var barWidth = width / data.length;
 
   var bar = chart.selectAll("g")
@@ -137,12 +143,12 @@ var x = d3.scaleLinear()
     .domain([0, d3.max(data)])
     .range([0, 100]);
 
-d3.select(".chart")
+/*d3.select(".chart")
   .selectAll("div")
     .data(data)
   .enter().append("div")
     .style("width", function(d) { return x(d.length) + "px"; })
-    .text(function(d) { return d[0]; });
+    .text(function(d) { return d[0]; });*/
 
 }
 function type(d) {
