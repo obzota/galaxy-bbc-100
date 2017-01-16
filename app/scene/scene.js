@@ -18,17 +18,23 @@ Scene.prototype.drawGalaxy = function() {
 	this.movie = null;
 	this.movieIsSelected = false;
 
+
 	var that = this;
+	// TODO: discuss radio buttons
+	var selectGenre = true;
+	//selectGenre = that.drawColorButtons();
+
 	var solarSystems = this.selectMovies(movies); // = d3.select('#movies').selectAll('circle').data(movies, keyFunc)
 	var enter = solarSystems.enter().append('circle'); // append new circles for movies
 	enter
 			.classed('movie', true)
-		    .style('fill', function(movie) {return movie.color(true)}) // TODO: pass the value of the radio button of the matrix
+		    .style('fill', function(movie) {return movie.color(selectGenre)}) // TODO: pass the value of the radio button of the matrix
 		    .attr('r', 3) // TODO: compute radius/choose data for radius ?
 		    .attr('cx', function(movie) {return that.scale(movie.pos().farX)})
 		    .attr('cy', function(movie) {return that.scale(movie.pos().farY)});
+
 	enter.merge(solarSystems)
-		    .on('click', function(movie) {that.drawSystem(movie)})
+		  .on('click', function(movie) {that.drawSystem(movie)})
 			.on('mouseenter', function(movie) {that.displayMovieInfo(movie)})
 			.on('mouseleave', function(movie) {that.hideMovieInfo()})
 		    .attr('data-title', function(movie) {return movie.title})
@@ -119,4 +125,33 @@ if(!this.movieIsSelected)
 {
 		$("#sidebar")[0].innerHTML = null
 }
+}
+
+
+Scene.prototype.drawColorButtons = function() {
+	// Radio buttons for encoding color
+	var genreSelected = true;
+	var body = d3.select("body")
+	var form = body.append('form');
+	form.append('input')
+		.attr('type', 'radio')
+		.attr('value', 'Genre')
+		.attr('name', 'toggle')
+		.on('click', function () {
+				genreSelected = true;
+		});
+		form.append('label')
+				.html('Genre');
+
+		form.append('input')
+				.attr('type', 'radio')
+				.attr('value', 'Nat')
+				.attr('name', 'toggle')
+				.on('click', function () {
+						genreSelected = false;
+		});
+		form.append('label')
+			.html('Nationality');
+
+		return genreSelected;
 }
