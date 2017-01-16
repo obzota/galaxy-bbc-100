@@ -18,51 +18,47 @@
 	<script type="text/javascript" src="../scene/gravity.js"></script>
 
 	<script type="text/javascript" src="../test.js"></script>
-	
+
 	<script
-			  src="https://code.jquery.com/jquery-3.1.1.min.js"
-			  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-			  crossorigin="anonymous">
-	</script>
-	
-	    <link href="../template/galaxy.css" rel="stylesheet">
+	src="https://code.jquery.com/jquery-3.1.1.min.js"
+	integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+	crossorigin="anonymous">
+</script>
+
+<link href="../template/galaxy.css" rel="stylesheet">
 </head>
 <body>
 
-<div id="template" style="display : none">
-<div>
-	<div >
-		<img src={{poster}} alt="Poster not available">
-	</div>
-	 <ul>
-		<li><button type="button">{{title}}</button></li>
-		<li><button type="button">{{director}}</button></li>
-		<li><button type="button">{{year}}</button></li>
-		<li><button type="button">{{genre}}</button></li> <!-- TODO make a button by genre -->
-	</ul> 
-</div>
-
-
-	</div>
-	
-</div>
-
-
-
-<div class ="main">
-	<svg id="scene" width="1000" height="1000">
-		<g id="movies"></g>
-		<g id="critics"></g>
-	</svg>
-	</div>
-	
-	
-	<div id="sidebar" class="sidebar"> <!-- will be rendered with the template-->
-	</div>
-	<div id =" histo" class="sidebar">
-		<svg id="svgHisto" class="chart"></svg>
+	<div id="template" style="display : none">
+			<div>
+				<img src={{poster}} alt="Poster not available">
+			</div>
+			<div id="infoheap">
+				<div>{{title}}</div>
+				<div>{{director}}</div>
+				<div>{{year}}</div>
+				<div>{{genre}}</div><!-- TODO make a button by genre -->
+			</div>
 	</div>
 
+
+	<div id="app">
+		<div id="main">
+			<svg id="scene">
+				<g id="movies"></g>
+				<g id="critics"></g>
+			</svg>
+		</div>
+
+		<div id="sidebar">
+			<div id="movie_info"> <!-- will be rendered with the template-->
+			</div>
+
+			<div id="histo">
+				<svg id="svgHisto" class="chart"></svg>
+			</div>
+		</div>
+	</div>
 
 </body>
 

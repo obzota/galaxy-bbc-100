@@ -2,22 +2,68 @@
     box-sizing: border-box;
 }
 
-.sidebar {
-    width: 25%;
-    float: left;
-	border-style: solid ;
-	border-width : 3px;
-	border-color : black;
-	
-	padding : 10px;
+html, body {
+  width: 100%;
+  height: 100%;
 }
+
+#app {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: stretch;
+}
+
+#sidebar {
+  flex-basis: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#main {
+  flex-basis: 75%;
+}
+
+#scene {
+  width: 100%;
+  height: 100%;
+}
+
+#movie_info {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+}
+
+#movie_info div {
+  margin: 20px;
+}
+
+#infoheap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#infoheap div {
+  margin: 3px;
+  padding: 5px 20px 5px;
+  background-color: cornflowerblue;
+  border-radius: 2px;
+
+  flex-grow: 1;
+}
+
 
 button {
 	font-size : 25px;
     background-color: white;
     color: black;
     border: 2px solid black; /* Green */
-	
+
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
 	width : 100%;
@@ -33,15 +79,6 @@ img {
     margin: auto;
     width: 50%;
 	padding-top : 15px;
-}
-
-.main {
-    width: 75%;
-    float: left;
-	
-	border-style: solid ;
-	border-width : 3px;
-	border-color : black;
 }
 
 ul {
