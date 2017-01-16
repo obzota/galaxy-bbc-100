@@ -99,24 +99,47 @@ Scene.prototype.displayMovieInfo = function(movie)
 		$("#sidebar")[0].innerHTML = output;
 	
 	var data = movie.histogram;
+var width = 100,
+    height = 100;
 
-var x = d3.scaleLinear()
-    .domain([0, d3.max(data)])
-    .range([0, 100]);
+var y = d3.scaleLinear()
+    .range([height, 0]);
 
-d3.select(".chart")
-  .selectAll("div")
-    .data(data)
-  .enter().append("div")
-    .style("width", function(d) { return x(d.length) + "px"; })
-    .text(function(d) { return d[0]; });
-		
+var chart = d3.select(".chart")
+    .attr("width", width)
+    .attr("height", height);
+
+
+  var barWidth = width / data.length;
+
+  var bar = chart.selectAll("g")
+      .data(data)
+    .enter().append("g")
+      .attr("transform", function(d, i) { return "translate(" + i * barWidth + ",0)"; })
+	.append("rect")
+      .attr("y", function(d) { return y(d.length); })
+      .attr("height", function(d) { return height - y(d.length); })
+      .attr("width", barWidth - 1);
+
+  bar.append("text")
+      .attr("x", barWidth / 2)
+      .attr("y", function(d) { return y(d.length) + 3; })
+      .attr("dy", ".75em")
+      .text(function(d) { return d.length; });
+
 }
+function type(d) {
+  d.value = +d.length; // coerce to number
+  return d;
+}
+	
+
 
 Scene.prototype.hideMovieInfo = function()
 {	
-if(!this.movieIsSelected)
-{
-		$("#sidebar")[0].innerHTML = null
-}
+	if(!this.movieIsSelected)
+	{
+		$("#sidebar")[0].innerHTML = null;
+		$("#histo")	.innerHTML = null;
+	}
 }
