@@ -13,7 +13,8 @@ function Movie(
 	// TODO: find useful field to add (from meta.csv)
 	this.poster = meta.Poster;
 	this.genre = this.parseGenre(meta.Genre);
-	
+	this.nationality = meta.Country;
+
 	// ...
 
 	this.rankings = [];
@@ -28,14 +29,14 @@ function Movie(
 			that.score += 11 - rank;
 		}
 	});
-	
+
 	this.histogram = this.histo();
 }
 
 // DONE: implement/find parser string to array
 // "Drama, Western" -> ["Drama", "Western"]
 Movie.prototype.parseGenre = function(string) {
-	var res = string.split(", "); 
+	var res = string.split(",");
 	return res;
 };
 
@@ -66,3 +67,87 @@ Movie.prototype.histo = function() {
 compareMovies = function(a,b) {
 	return a.score - b.score;
 };
+
+
+
+
+Movie.prototype.color = function(wantGenre) {
+	var color = '#33CCFF';
+
+	// If we need to encode genre with color
+	if (wantGenre) {
+		var genreMovie = this.genre;
+		genreMovie = this.parseGenre(String(this.genre));
+
+		// Unique genre, we can set color easily
+		/*
+		if (genreMovie.length == 1) {
+			if (genreMovie[0] == "Drama") {
+				color = '#000000';
+			}
+			if (genreMovie[0] == "Comedy") {
+				color = '#FFFF00';
+			}
+			if (genreMovie[0] == "Romance") {
+				color = '#FF00BF';
+			}
+			if (genreMovie[0] == "Biography" || genreMovie[0] == "History" || genreMovie[0] == "Documentary") {
+				color = '#31B404';
+			}
+		}
+		else {
+			if (String(this.genre).indexOf("Drama") != -1 ) {
+				color = '#A4A4A4';
+			}
+			else if (String(this.genre).indexOf("Adventure") != -1 ) {
+				color = '#0000FF';
+			}
+		}*/
+
+		var firstGenre = genreMovie[0];
+		if (firstGenre == "Drama") {
+			color = '#000000';
+		}
+		if (firstGenre == "Comedy") {
+			color = '#FFFF00';
+		}
+		if (firstGenre == "Romance") {
+			color = '#FF00BF';
+		}
+		if (firstGenre == "Crime" || firstGenre == "Thriller") {
+			color = '#848484';
+		}
+		if (firstGenre == "Action" || firstGenre == "Adventure") {
+			color = '#DF0101';
+		}
+
+		if (firstGenre == "Biography" || firstGenre == "History" || firstGenre == "Documentary") {
+			color = '#31B404';
+		}
+	}
+
+	// If we need to encode nationality with color
+	else {
+		color = "#000000";
+		// TODO: check if this nationality is relevant (several countries are mixed)
+		var nat = this.nationality;
+
+		if (String(nat).search("China|Japan|Korea|Taiwan|Singapore") != -1) {
+			color = '#FF0000';
+		}
+
+		if (String(nat).search("USA|Mexico|Peru") != -1) {
+			color = '#FFFF00';
+		}
+
+		if (String(nat).search("France|Spain|UK|Finland|Germany|Italy|Portugal|Romania|Belgium") != -1) {
+			color = '#0000FF';
+		}
+
+		if (String(nat).search("Israel|Palestine|Jordan|Iran|Egypt") != -1) {
+			color = '#0B610B';
+		}
+	}
+
+	return color;
+}

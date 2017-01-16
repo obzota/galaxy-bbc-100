@@ -18,17 +18,23 @@ Scene.prototype.drawGalaxy = function() {
 	this.movie = null;
 	this.movieIsSelected = false;
 
+
 	var that = this;
+	// TODO: discuss radio buttons
+	var selectGenre = true;
+	//selectGenre = that.drawColorButtons();
+
 	var solarSystems = this.selectMovies(movies); // = d3.select('#movies').selectAll('circle').data(movies, keyFunc)
 	var enter = solarSystems.enter().append('circle'); // append new circles for movies
 	enter
 			.classed('movie', true)
-		    .style('fill', '#426F8C') // TODO: compute color
+		    .style('fill', function(movie) {return movie.color(selectGenre)}) // TODO: pass the value of the radio button of the matrix
 		    .attr('r', 3) // TODO: compute radius/choose data for radius ?
 		    .attr('cx', function(movie) {return that.scale(movie.pos().farX)})
 		    .attr('cy', function(movie) {return that.scale(movie.pos().farY)});
+
 	enter.merge(solarSystems)
-		    .on('click', function(movie) {that.drawSystem(movie)})
+		  .on('click', function(movie) {that.drawSystem(movie)})
 			.on('mouseenter', function(movie) {that.displayMovieInfo(movie)})
 			.on('mouseleave', function(movie) {that.hideMovieInfo()})
 		    .attr('data-title', function(movie) {return movie.title})
@@ -95,9 +101,9 @@ Scene.prototype.resize = function(width, heigth) {
 Scene.prototype.displayMovieInfo = function(movie)
 {
 		var template = $("#template")[0].innerHTML;
-		var output = Mustache.render(template, movie);	
+		var output = Mustache.render(template, movie);
 		$("#sidebar")[0].innerHTML = output;
-	
+
 	var data = movie.histogram;
 var width = 100,
     height = 100;
@@ -127,6 +133,17 @@ var chart = d3.select(".chart")
       .attr("dy", ".75em")
       .text(function(d) { return d.length; });
 
+var x = d3.scaleLinear()
+    .domain([0, d3.max(data)])
+    .range([0, 100]);
+
+d3.select(".chart")
+  .selectAll("div")
+    .data(data)
+  .enter().append("div")
+    .style("width", function(d) { return x(d.length) + "px"; })
+    .text(function(d) { return d[0]; });
+
 }
 function type(d) {
   d.value = +d.length; // coerce to number
@@ -142,4 +159,33 @@ Scene.prototype.hideMovieInfo = function()
 		$("#sidebar")[0].innerHTML = null;
 		$("#histo")	.innerHTML = null;
 	}
+}
+
+
+Scene.prototype.drawColorButtons = function() {
+	// Radio buttons for encoding color
+	var genreSelected = true;
+	var body = d3.select("body")
+	var form = body.append('form');
+	form.append('input')
+		.attr('type', 'radio')
+		.attr('value', 'Genre')
+		.attr('name', 'toggle')
+		.on('click', function () {
+				genreSelected = true;
+		});
+		form.append('label')
+				.html('Genre');
+
+		form.append('input')
+				.attr('type', 'radio')
+				.attr('value', 'Nat')
+				.attr('name', 'toggle')
+				.on('click', function () {
+						genreSelected = false;
+		});
+		form.append('label')
+			.html('Nationality');
+
+		return genreSelected;
 }
