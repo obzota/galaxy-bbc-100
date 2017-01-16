@@ -23,7 +23,7 @@ Scene.prototype.drawGalaxy = function() {
 	var enter = solarSystems.enter().append('circle'); // append new circles for movies
 	enter
 			.classed('movie', true)
-		    .style('fill', '#426F8C') // TODO: compute color
+		    .style('fill', function(movie) {return movie.color(true)}) // TODO: pass the value of the radio button of the matrix
 		    .attr('r', 3) // TODO: compute radius/choose data for radius ?
 		    .attr('cx', function(movie) {return that.scale(movie.pos().farX)})
 		    .attr('cy', function(movie) {return that.scale(movie.pos().farY)});
@@ -95,9 +95,9 @@ Scene.prototype.resize = function(width, heigth) {
 Scene.prototype.displayMovieInfo = function(movie)
 {
 		var template = $("#template")[0].innerHTML;
-		var output = Mustache.render(template, movie);	
+		var output = Mustache.render(template, movie);
 		$("#sidebar")[0].innerHTML = output;
-	
+
 	var data = movie.histogram;
 
 var x = d3.scaleLinear()
@@ -110,11 +110,11 @@ d3.select(".chart")
   .enter().append("div")
     .style("width", function(d) { return x(d.length) + "px"; })
     .text(function(d) { return d[0]; });
-		
+
 }
 
 Scene.prototype.hideMovieInfo = function()
-{	
+{
 if(!this.movieIsSelected)
 {
 		$("#sidebar")[0].innerHTML = null
