@@ -5,6 +5,7 @@
 html, body {
   width: 100%;
   height: 100%;
+  margin: 0px;
 }
 
 #app {
@@ -19,7 +20,9 @@ html, body {
   flex-basis: 25%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+
+  align-items: center;
+  justify-content: space-between;
 }
 
 #main {
@@ -56,7 +59,6 @@ html, body {
 
   flex-grow: 1;
 }
-
 
 button {
 	font-size : 25px;

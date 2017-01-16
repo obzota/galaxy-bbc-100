@@ -6,7 +6,6 @@ function Scene(movies, critics) {
 	this.movie = null;
 	this.size = 1000; // in pixels
 	this.scaling = 1;
-	this.movieIsSelected = false;
 	this.scale = d3.scaleLinear()
 	.domain([-1,1])
 	.range([10,990]);
@@ -16,14 +15,13 @@ function Scene(movies, critics) {
 
 Scene.prototype.drawGalaxy = function() {
 	this.movie = null;
-	this.movieIsSelected = false;
 
 	var that = this;
 	// TODO: discuss radio buttons
 	var selectGenre = true;
 	//selectGenre = that.drawColorButtons();
 
-	var solarSystems = this.selectMovies(movies); // = d3.select('#movies').selectAll('circle').data(movies, keyFunc)
+	var solarSystems = this.d3GalaxySelect(movies); // = d3.select('#movies').selectAll('circle').data(movies, keyFunc)
 	var enter = solarSystems.enter().append('circle'); // append new circles for
 	movies
 	enter
@@ -35,9 +33,9 @@ Scene.prototype.drawGalaxy = function() {
     .attr('cy', function(movie) {return that.scale(movie.pos().farY)});
 
     enter.merge(solarSystems)
-    .on('click', function(movie) {that.drawSystem(movie)})
+    .on('click', function(movie) {that.selectMovie(movie)})
     .on('mouseenter', function(movie) {that.displayMovieInfo(movie)})
-    .on('mouseleave', function(movie) {that.hideMovieInfo()})
+    .on('mouseleave', function(movie) {that.hideMovieInfo(movie)})
     .attr('data-title', function(movie) {return movie.title})
     .transition().duration(1000)
     .attr('cx', function(movie) {return that.scale(movie.pos().x)})
@@ -45,12 +43,11 @@ Scene.prototype.drawGalaxy = function() {
 }
 
 Scene.prototype.drawSystem = function(movie) {
-	this.movieIsSelected = true;
 	this.movie = movie;
 	Scene.prototype.displayMovieInfo(movie);
 
 	var that = this;
-	var solarSystems = this.selectMovies([movie]);
+	var solarSystems = this.d3GalaxySelect([movie]);
 
 	solarSystems
 	.transition()
@@ -72,7 +69,7 @@ Scene.prototype.drawSystem = function(movie) {
 	.on('click', function() {that.drawGalaxy()});
 };
 
-Scene.prototype.selectMovies = function(data) {
+Scene.prototype.d3GalaxySelect = function(data) {
 	var key = function(movie, index) {
 		return movie.imdbid;
 	}
@@ -103,6 +100,11 @@ Scene.prototype.resize = function(width, heigth) {
 	this.scale.range([0, this.size]);
 };
 
+Scene.prototype.selectMovie = function(movie) {
+	this.movie = movie;
+	this.displayMovieInfo(movie);
+};
+
 Scene.prototype.displayMovieInfo = function(movie)
 {
 	/*
@@ -115,32 +117,32 @@ Scene.prototype.displayMovieInfo = function(movie)
 	/*
 		render movie rating histogram
 	*/
-	var data = [0,0,0,0,0,0,0,0,0,0,0];
-	movie.histogram.map((bucket) => (data[bucket[0]] = bucket.length));
+	var data = [0,0,0,0,0,0,0,0,0,0];
+	movie.histogram.map((bucket) => (data[bucket[0]-1] = bucket.length));
 
-	var width = 100,
+	var width = 300,
 	height = 100;
 
 	var y = d3.scaleLinear()
-	.range([height, 0]);
+	.domain([0, d3.max(data)])
+	.range([height-2, 0]);
 
 	var chart = d3.select(".chart")
 	.attr("width", width)
 	.attr("height", height);
 
-	y.domain([0, d3.max(data)]);
-
 	var barWidth = width / data.length;
 
-	var bar = chart.selectAll("g").data(data);
-	debugger;
-	bar
-	.enter().append("g").merge(bar)
-	.attr("transform", function(d, i) { return "translate(" + i * barWidth + ",0)"; })
-	.append("rect")
-	.attr("y", function(d) { return y(d); })
-	.attr("height", function(d) { return height - y(d); })
-	.attr("width", barWidth - 1);
+	chart.selectAll("g").data(data).enter() // bind data + one time build dom element <g><rect></rect></g>
+		.append("g").attr("transform", function(d, index) { return "translate(" + index * barWidth + ",0)"; })
+		.append("rect");
+
+	chart.selectAll("rect").data(data)
+		.transition().duration(200)
+	    .attr('x', 0)
+	    .attr('y', (d) => (y(d)))
+	    .attr('width', barWidth-2)
+	    .attr('height', function (d) {return height - y(d);});
 
 	// bar.append("text")
 	// .attr("x", barWidth / 2)
@@ -149,18 +151,22 @@ Scene.prototype.displayMovieInfo = function(movie)
 	// .text(function(d) { return d; });
 
 	var x = d3.scaleLinear()
-	.domain([0, d3.max(data)])
-	.range([0, 100]);
+		.domain([0, d3.max(data)])
+		.range([0, 100]);
 
 	$("#svgHisto").show();
 }
 
-Scene.prototype.hideMovieInfo = function()
+Scene.prototype.hideMovieInfo = function(movie)
 {
-	if(!this.movieIsSelected)
+	if(!this.movie)
 	{
 		$("#movie_info")[0].innerHTML = null;
 		$("#svgHisto").hide();
+		return;
+	}
+	if (this.movie !== movie) {
+		this.displayMovieInfo(this.movie);
 	}
 }
 
