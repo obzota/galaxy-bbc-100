@@ -1,10 +1,3 @@
-function EventHandler(scene) {
-	this.scene = scene;
-
-	this.callbacks = new d3.map();
-	this.callbacks.set("r", () => (scene.reset()));
+onTitleClick = function(){
+	scene.drawSystem(scene.movie);
 }
-
-EventHandler.prototype.onKeyPressed = function(event) {
-
-};
