@@ -67,10 +67,12 @@ html, body {
 #infoheap div:hover {
     background-color: MidnightBlue  ;
     color: white;
+	cursor:default;
 }
 #infoheap div:active {
     background-color: MidnightBlue  ;
     color: white;
+	cursor:default;
 }
 
 img {
