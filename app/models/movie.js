@@ -41,7 +41,7 @@ function computeRank(movies)
 
 	for (i = 0; i < movies.length; i++)
 	{
-	   movies[i].rank = i;
+	   movies[i].rank = i+1;
 	}
 }
 
