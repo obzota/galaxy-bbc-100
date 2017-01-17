@@ -10,6 +10,7 @@ function onDbLoaded(db) {
 	});
 	scene = new Scene(movies, critics);
 	scene.drawGalaxy();
+	initializeZoomEvents();
 }
 
 setTimeout(onDbLoaded, 1000, db); // ensure the db is loaded when we start using it
