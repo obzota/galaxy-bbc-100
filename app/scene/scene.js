@@ -2,34 +2,46 @@ function Scene(movies, critics) {
 	this.filterManager = new filterManager();
 	this.movies = movies;
 	this.critics = critics;
-	this.galaxy = d3.select('#movies');
-	this.system = d3.select('#critics');
+
 	this.movie = null;
-	this.size = 1000; // in pixels
-	this.scaling = 1;
+
 	this.scale = d3.scaleLinear()
 	.domain([-1,1])
 	.range([10,990]);
 
 	givePosition(this.movies);
+	computeRank(this.movies);
+
 	this.moviesSelected=[];
+
+	this.colorIsGenre = true;
 }
 
+Scene.prototype.renderGalaxy = function() {
+	this.drawGalaxy();
+	this.drawCircleAround();
+	this.displayMovieInfo();
+	this.undrawSystem();
+};
+
+Scene.prototype.renderSystem = function() {
+	this.undrawGalaxy();
+	this.drawSystem();
+	this.undrawCircleAround();
+};
+
 Scene.prototype.drawGalaxy = function() {
-	
-	this.movie = null;
 	var that = this;
-	var selectGenre = true;
+
 	$("#movieSelected").show();
 	$("#rank").show();
-	this.drawCircleAround();
-	$("#critics").hide();
+
+
 
 	var solarSystems = this.d3GalaxySelect(movies); // = d3.select('#movies').selectAll('circle').data(movies, keyFunc)
 	var enter = solarSystems.enter().append('circle'); // append new circles for movies
 	enter
 	.classed('movie', true)
-	.style('fill', function(movie) {return movie.color(selectGenre)})
 	//TODO: pass the value of the radio button of the matrix
     .attr('r', 3) // TODO: compute radius/choose data for radius ?
     .attr('cx', function(movie) {return that.scale(movie.pos().farX)})
@@ -40,13 +52,13 @@ Scene.prototype.drawGalaxy = function() {
     .on('mouseenter', function(movie) {that.displayMovieInfo(movie)})
     .on('mouseleave', function(movie) {that.hideMovieInfo(movie)})
     .attr('data-title', function(movie) {return movie.title})
+    .style('fill', function(movie) {return movie.color(that.colorIsGenre)})
     .transition().duration(1000)
 		.attr('r', 3)
     .attr('cx', function(movie) {return that.scale(movie.pos().x)})
     .attr('cy', function(movie) {return that.scale(movie.pos().y)});
 	scene.filterManager.refresh();
-	
-	computeRank(movies);
+
 	var radius = distance(movies[0],movies[99]);
 	d3.select('#rank').append('circle')
 			.style('stroke', '#00FF00')
@@ -61,17 +73,15 @@ function distance(a,b)
 {
 	return Math.sqrt(Math.pow((a.pos().x - b.pos().x),2)+Math.pow((a.pos().y - b.pos().y),2));
 }
-Scene.prototype.drawSystem = function(movie) {
-	this.movie = movie;
-	Scene.prototype.displayMovieInfo(movie);
+
+
+Scene.prototype.undrawGalaxy = function() {
+	$("#movieSelected").hide();
+	$("#rank").hide();
 
 	var that = this;
-	var solarSystems = this.d3GalaxySelect([movie]);
+	var solarSystems = this.d3GalaxySelect([this.movie]);
 
-	$("#critics").show();
-	$("#moviesSelected").hide();
-	$("#rank").hide();
-	
 	solarSystems
 	.transition()
 	.duration(1000)
@@ -90,11 +100,18 @@ Scene.prototype.drawSystem = function(movie) {
 
 	var genreSelected = document.getElementById("genreSelect").checked;
 	solarSystems
-		.style('fill', function(movie) {return movie.color(genreSelected)})
-		.on('click', function() {that.drawGalaxy()});
+	.on('click', function() {that.renderGalaxy()});
+};
+
+Scene.prototype.drawSystem = function() {
+	Scene.prototype.displayMovieInfo(this.movie);
+
+	var that = this;
+
+	$("#critics").show();
 
 	// critics
-	var my_critics = d3.select('#critics').selectAll('circle').data(movie.rankings);
+	var my_critics = d3.select('#critics').selectAll('circle').data(this.movie.rankings);
 	var enter = my_critics.enter().append('circle');
 	enter.merge(my_critics)
 		.attr('r', 4)
@@ -105,22 +122,30 @@ Scene.prototype.drawSystem = function(movie) {
 	scene.filterManager.refresh();
 };
 
+Scene.prototype.undrawSystem = function() {
+	$("#critics").hide();
+};
+
 Scene.prototype.d3GalaxySelect = function(data) {
 	var key = function(movie, index) {
 		return movie.imdbid;
 	}
-	return this.galaxy.selectAll('circle').data(data, key);
+	return d3.select('#movies').selectAll('circle').data(data, key);
 };
 
 Scene.prototype.selectMovie = function(movie) {
 	this.movie = movie;
-	this.displayMovieInfo(movie);
 	this.moviesSelected.push(movie);
-	this.drawCircleAround();
+	this.renderGalaxy();
 };
 
-Scene.prototype.displayMovieInfo = function(movie)
+Scene.prototype.displayMovieInfo = function()
 {
+	if(!this.movie) {
+		return;
+	}
+
+	let movie = this.movie;
 
 	/*
 		render movie info
@@ -159,12 +184,6 @@ Scene.prototype.displayMovieInfo = function(movie)
 	    .attr('width', barWidth-2)
 	    .attr('height', function (d) {return height - y(d);});
 
-	// bar.append("text")
-	// .attr("x", barWidth / 2)
-	// .attr("y", function(d) { return y(d) + 3; })
-	// .attr("dy", ".75em")
-	// .text(function(d) { return d; });
-
 	var x = d3.scaleLinear()
 		.domain([0, d3.max(data)])
 		.range([0, 100]);
@@ -185,29 +204,22 @@ Scene.prototype.hideMovieInfo = function(movie)
 	}
 }
 
-Scene.prototype.displayCriticInfo = function(critic) {
-
-}
-
-Scene.prototype.hideCriticInfo = function(critic) {
-
-}
-
 Scene.prototype.drawCircleAround = function()
 {
-
 	$("#moviesSelected").show();
 	var previousMoviesSelected = d3.select('#moviesSelected').selectAll('.movieSelected')
 		.data(this.moviesSelected).style('stroke','lightgray');
 
-	if(this.movie){
-		previousMoviesSelected.enter().append('circle')
-			.style('stroke', '#FF0000')
-			.style('fill', 'transparent')
-		.attr('r', 10)
-		.attr('class','movieSelected')
-		.attr('cx', this.scale(this.movie.pos().x))
-		.attr('cy', this.scale(this.movie.pos().y));
-	}
+	previousMoviesSelected.enter().append('circle')
+		.style('stroke', '#FF0000')
+		.style('fill', 'transparent')
+	.attr('r', 10)
+	.attr('class','movieSelected')
 
+	.attr('cx', (movie) => (this.scale(movie.pos().x)))
+	.attr('cy', (movie) => (this.scale(movie.pos().y)));
 }
+
+Scene.prototype.undrawCircleAround = function() {
+	$("#moviesSelected").hide();
+};
