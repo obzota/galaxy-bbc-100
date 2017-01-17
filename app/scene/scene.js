@@ -17,9 +17,7 @@ Scene.prototype.drawGalaxy = function() {
 	this.movie = null;
 
 	var that = this;
-	// TODO: discuss radio buttons
 	var selectGenre = true;
-	//selectGenre = that.drawColorButtons();
 
 	var solarSystems = this.d3GalaxySelect(movies); // = d3.select('#movies').selectAll('circle').data(movies, keyFunc)
 	var enter = solarSystems.enter().append('circle'); // append new circles for
