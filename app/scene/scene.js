@@ -11,12 +11,15 @@ function Scene(movies, critics) {
 	.range([10,990]);
 
 	givePosition(this.movies);
+	this.moviesSelected=[];
 }
 
 Scene.prototype.drawGalaxy = function() {
 	this.movie = null;
 	var that = this;
 	var selectGenre = true;
+
+	$("#critics").hide();
 
 	var solarSystems = this.d3GalaxySelect(movies); // = d3.select('#movies').selectAll('circle').data(movies, keyFunc)
 	var enter = solarSystems.enter().append('circle'); // append new circles for movies
@@ -34,6 +37,7 @@ Scene.prototype.drawGalaxy = function() {
     .on('mouseleave', function(movie) {that.hideMovieInfo(movie)})
     .attr('data-title', function(movie) {return movie.title})
     .transition().duration(1000)
+		.attr('r', 3)
     .attr('cx', function(movie) {return that.scale(movie.pos().x)})
     .attr('cy', function(movie) {return that.scale(movie.pos().y)});
 }
@@ -45,11 +49,14 @@ Scene.prototype.drawSystem = function(movie) {
 	var that = this;
 	var solarSystems = this.d3GalaxySelect([movie]);
 
+	$("#critics").show();
+
 	solarSystems
 	.transition()
 	.duration(1000)
 	.attr('cx', this.scale(0))
-	.attr('cy', this.scale(0));
+	.attr('cy', this.scale(0))
+	.attr('r', 12);
 
 	solarSystems
 	.exit()
@@ -63,6 +70,18 @@ Scene.prototype.drawSystem = function(movie) {
 	solarSystems
 	.style('fill', '#000')
 	.on('click', function() {that.drawGalaxy()});
+
+	// critics
+	var my_critics = d3.select('#critics').selectAll('circle').data(movie.rankings);
+	var enter = my_critics.enter().append('circle');
+	enter.merge(my_critics)
+		.attr('r', 4)
+		.attr('cx', (ranking) => (that.scale(ranking.posX())) )
+		.attr('cy', (ranking) => (that.scale(ranking.posY())) )
+		.style('fill', '#000000')
+
+
+
 };
 
 Scene.prototype.d3GalaxySelect = function(data) {
@@ -72,33 +91,10 @@ Scene.prototype.d3GalaxySelect = function(data) {
 	return this.galaxy.selectAll('circle').data(data, key);
 };
 
-Scene.prototype.zoomIn = function() {
-	if (this.movie) {return}
-		this.scaling = 1.1 * this.scaling;
-	this.scale.domain([-1/this.scaling, 1/this.scaling]);
-};
-
-Scene.prototype.zoomOut = function() {
-	if (this.movie) {return}
-		this.scaling = 0.9 * this.scaling;
-	this.scale.domain([-1/this.scaling, 1/this.scaling]);
-}
-
-Scene.prototype.reset = function() {
-	this.scaling = 1;
-	this.scale.domain([-1,1]);
-	this.drawGalaxy();
-};
-
-Scene.prototype.resize = function(width, heigth) {
-	this.size = d3.min(width, heigth);
-	this.scale.range([0, this.size]);
-};
-
 Scene.prototype.selectMovie = function(movie) {
 	this.movie = movie;
 	this.displayMovieInfo(movie);
-	//this.updateColorMapping();
+	this.moviesSelected.push(movie);
 	this.drawCircleAround(movie);
 };
 
@@ -168,6 +164,15 @@ Scene.prototype.hideMovieInfo = function(movie)
 	}
 }
 
+Scene.prototype.displayCriticInfo = function(critic) {
+
+}
+
+Scene.prototype.hideCriticInfo = function(critic) {
+
+}
+
+
 
 updateColorMapping = function() {
 	// Check if we should map genre to color and update Galaxy
@@ -179,11 +184,14 @@ updateColorMapping = function() {
 
 Scene.prototype.drawCircleAround = function(movie)
 {
-	d3.select('#movies').append('circle')
+	var previousMoviesSelected = d3.select('#moviesSelected').selectAll('.movieSelected')
+		.data(this.moviesSelected).style('stroke','lightgray');
+	
+	previousMoviesSelected.enter().append('circle')
 		.style('stroke', '#FF0000')
 		.style('fill', 'transparent')
-		.style('zIndex', '-1px')
     .attr('r', 10) 
+	.attr('class','movieSelected')
     .attr('cx', this.scale(movie.pos().x))
     .attr('cy', this.scale(movie.pos().y));
 }
