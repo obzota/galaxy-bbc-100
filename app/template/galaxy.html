@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8" />
 	<title>Galaxy BBC 100</title>
 
 	<link rel="shortcut icon" href="favicon.ico" />
@@ -18,6 +19,7 @@
 	<script type="text/javascript" src="../scene/zoom.js"></script>
 	<script type="text/javascript" src="../scene/gravity.js"></script>
 	<script type="text/javascript" src="../scene/events.js"></script>
+	<script type="text/javascript" src="../scene/filterManager.js"></script>
 
 	<script type="text/javascript" src="../test.js"></script>
 
@@ -42,12 +44,13 @@
 			</div>
 			<div id="infoheap">
 				<div onclick="onTitleClick()">{{title}}</div>
-				<div>{{director}}</div>
-				<div>{{year}}</div>
-				<div>{{genre}}</div><!-- TODO make a button by genre -->
+				<div onclick="scene.filterManager.addDirectorFilter()">{{director}}</div>
+				<div onclick="scene.filterManager.addYearFilter()">{{year}}</div>
+				<div onclick="scene.filterManager.addGenreFilter()">{{genre}}</div><!-- TODO make a button by genre -->
 			</div>
 	</div>
 
+	<div id="filterList"></div>
 
 	<div id="app">
 		<div id="main">

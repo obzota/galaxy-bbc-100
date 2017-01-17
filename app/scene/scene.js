@@ -1,4 +1,5 @@
 function Scene(movies, critics) {
+	this.filterManager = new filterManager();
 	this.movies = movies;
 	this.critics = critics;
 	this.galaxy = d3.select('#movies');
