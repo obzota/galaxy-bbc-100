@@ -15,13 +15,11 @@ function Scene(movies, critics) {
 
 Scene.prototype.drawGalaxy = function() {
 	this.movie = null;
-
 	var that = this;
 	var selectGenre = true;
 
 	var solarSystems = this.d3GalaxySelect(movies); // = d3.select('#movies').selectAll('circle').data(movies, keyFunc)
-	var enter = solarSystems.enter().append('circle'); // append new circles for
-	movies
+	var enter = solarSystems.enter().append('circle'); // append new circles for movies
 	enter
 	.classed('movie', true)
 	.style('fill', function(movie) {return movie.color(selectGenre)})
@@ -94,13 +92,13 @@ Scene.prototype.reset = function() {
 
 Scene.prototype.resize = function(width, heigth) {
 	this.size = d3.min(width, heigth);
-
 	this.scale.range([0, this.size]);
 };
 
 Scene.prototype.selectMovie = function(movie) {
 	this.movie = movie;
 	this.displayMovieInfo(movie);
+	this.updateColorMapping();
 };
 
 Scene.prototype.displayMovieInfo = function(movie)
@@ -170,30 +168,9 @@ Scene.prototype.hideMovieInfo = function(movie)
 }
 
 
-Scene.prototype.drawColorButtons = function() {
-	// Radio buttons for encoding color
-	var genreSelected = true;
-	var body = d3.select("body")
-	var form = body.append('form');
-	form.append('input')
-	.attr('type', 'radio')
-	.attr('value', 'Genre')
-	.attr('name', 'toggle')
-	.on('click', function () {
-		genreSelected = true;
-	});
-	form.append('label')
-	.html('Genre');
-
-	form.append('input')
-	.attr('type', 'radio')
-	.attr('value', 'Nat')
-	.attr('name', 'toggle')
-	.on('click', function () {
-		genreSelected = false;
-	});
-	form.append('label')
-	.html('Nationality');
-
-	return genreSelected;
+updateColorMapping = function() {
+	// Check if we should map genre to color and update Galaxy
+	var genreSelected = document.getElementById("genreSelect").checked;
+	d3.select('#movies').selectAll('circle')
+		.style('fill', function(movie) {return movie.color(genreSelected)});
 }
