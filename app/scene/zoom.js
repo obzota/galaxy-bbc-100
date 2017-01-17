@@ -5,6 +5,7 @@ function initializeZoomEvents() {
 		d3.select("#moviesSelected").attr("transform", d3.event.transform);
 		d3.select("#rank").attr("transform", d3.event.transform);
 		d3.select("#criticsOrbite").attr("transform", d3.event.transform);
+		d3.select("#constellation").attr("transform", d3.event.transform);
 	}
 
 	d3.select("#scene")

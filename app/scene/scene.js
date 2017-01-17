@@ -4,6 +4,7 @@ function Scene(movies, critics) {
 	this.critics = critics;
 
 	this.movie = null;
+	this.critic = null;
 
 	this.scale = d3.scaleLinear()
 	.domain([-1,1])
@@ -22,6 +23,7 @@ Scene.prototype.renderGalaxy = function() {
 	this.drawGalaxy();
 	this.drawCircleAround();
 	this.displayMovieInfo();
+	this.drawCriticConstellation();
 
 	this.undrawSystem();
 	this.hideCriticInfo();
@@ -158,6 +160,26 @@ Scene.prototype.selectMovie = function(movie) {
 	this.renderGalaxy();
 };
 
+Scene.prototype.drawCriticConstellation = function() {
+	if (!this.critic) {
+		return;
+	}
+
+	var c = d3.select("#constellation");
+	data = this.critic.getTopTen();
+
+	circles = c.selectAll("circle").data(data);
+	circles.enter().append("circle").merge(circles)
+		.attr('r', 10)
+		.attr('cx', (movie) => (this.scale(movie.pos().x)))
+		.attr('cy', (movie) => (this.scale(movie.pos().y)))
+		.style('fill', 'transparent')
+		.style('stroke', 'coral')
+		.style('stroke-width', 2);
+
+	c.selectAll("lines");
+};
+
 Scene.prototype.displayMovieInfo = function(movie)
 {
 	if(!movie && !this.movie) {
@@ -217,7 +239,6 @@ Scene.prototype.displayMovieInfo = function(movie)
 
 Scene.prototype.hideMovieInfo = function(movie)
 {
-
 	$("#movie_info").hide();
 	$("#histo").hide();
 
@@ -227,6 +248,7 @@ Scene.prototype.hideMovieInfo = function(movie)
 }
 
 Scene.prototype.displayCriticInfo = function(critic) {
+	this.critic = critic;
 	$("#critic_info").show();
 	$("#movie_info").hide();
 	d3.select("#critic_info").selectAll("div").data(critic.getData())
