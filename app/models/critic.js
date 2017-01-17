@@ -13,3 +13,12 @@ function Critic(
 	this.name = object.name
 	this.topTen = [null,null,null,null,null,null,null,null,null,null]; // is filled in movie constructor, 10 elmts
 }
+
+Critic.prototype.getData = function() {
+	let data = [this.name, this.country, this.media];
+	return data;
+};
+
+Critic.prototype.getTopTen = function() {
+	return this.topTen;
+}

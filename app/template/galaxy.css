@@ -45,13 +45,13 @@ html, body {
   margin: 20px;
 }
 
-#infoheap {
+#infoheap, #critic_info {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
-#infoheap div {
+#infoheap div, #critic_info div {
   margin: 3px;
   padding: 5px 20px 5px;
   background-color: cornflowerblue;
@@ -62,6 +62,15 @@ html, body {
 
   -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
+}
+
+#critic_info div {
+  background-color: coral;
+}
+
+#critic_info .clicable:hover {
+  cursor:default;
+  background-color: salmon;
 }
 
 #infoheap div:hover {

@@ -22,13 +22,17 @@ Scene.prototype.renderGalaxy = function() {
 	this.drawGalaxy();
 	this.drawCircleAround();
 	this.displayMovieInfo();
+
 	this.undrawSystem();
+	this.hideCriticInfo();
 };
 
 Scene.prototype.renderSystem = function() {
-	this.undrawGalaxy();
 	this.drawSystem();
+
 	this.undrawCircleAround();
+	this.undrawGalaxy();
+	this.hideMovieInfo(this.movie);
 };
 
 Scene.prototype.drawGalaxy = function() {
@@ -129,8 +133,10 @@ Scene.prototype.drawSystem = function() {
 		.attr('r', 4)
 		.attr('cx', (ranking) => (that.scale(ranking.posX())) )
 		.attr('cy', (ranking) => (that.scale(ranking.posY())) )
-		.style('fill', '#000000');
-		
+
+		.style('fill', ()=>(this.movie.color(scene.colorIsGenre)))
+		.on('click', function (ranking){ that.displayCriticInfo(ranking.critic) });
+
 	scene.filterManager.refresh();
 };
 
@@ -152,13 +158,18 @@ Scene.prototype.selectMovie = function(movie) {
 	this.renderGalaxy();
 };
 
-Scene.prototype.displayMovieInfo = function()
+Scene.prototype.displayMovieInfo = function(movie)
 {
-	if(!this.movie) {
+	if(!movie && !this.movie) {
 		return;
 	}
 
-	let movie = this.movie;
+	if(!movie) {
+		movie = this.movie;
+	}
+
+	$('#movie_info').show();
+	$('#histo').show();
 
 	/*
 		render movie info
@@ -206,16 +217,28 @@ Scene.prototype.displayMovieInfo = function()
 
 Scene.prototype.hideMovieInfo = function(movie)
 {
-	if(!this.movie)
-	{
-		$("#movie_info")[0].innerHTML = null;
-		$("#svgHisto").hide();
-		return;
-	}
-	if (this.movie !== movie) {
-		this.displayMovieInfo(this.movie);
+
+	$("#movie_info").hide();
+	$("#histo").hide();
+
+	if (this.movie) {
+		this.displayMovieInfo();
 	}
 }
+
+Scene.prototype.displayCriticInfo = function(critic) {
+	$("#critic_info").show();
+	$("#movie_info").hide();
+	d3.select("#critic_info").selectAll("div").data(critic.getData())
+	.text((d) => (d));
+}
+
+Scene.prototype.hideCriticInfo = function() {
+	$("#critic_info").hide();
+	if (this.movie) {
+		$('#infoheap').show();
+	}
+};
 
 Scene.prototype.drawCircleAround = function()
 {

@@ -19,3 +19,7 @@ onRadioClick = function() {
 		genre.style.display = "none";
 	}
 };
+
+onTopTenClic = function() {
+	scene.renderGalaxy();
+}
