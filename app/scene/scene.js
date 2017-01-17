@@ -7,11 +7,12 @@ function Scene(movies, critics) {
 
 	this.scale = d3.scaleLinear()
 	.domain([-1,1])
-	.range([10,990]);
+	.range([0,1000]);
 
 	givePosition(this.movies);
 	computeRank(this.movies);
-
+	this.drawOrbiteCritics();
+	$("#criticsOrbite").hide();
 	this.moviesSelected=[];
 
 	this.colorIsGenre = true;
@@ -120,7 +121,7 @@ Scene.prototype.drawSystem = function() {
 	var that = this;
 
 	$("#critics").show();
-
+	$("#criticsOrbite").show();
 	// critics
 	var my_critics = d3.select('#critics').selectAll('circle').data(this.movie.rankings);
 	var enter = my_critics.enter().append('circle');
@@ -128,13 +129,14 @@ Scene.prototype.drawSystem = function() {
 		.attr('r', 4)
 		.attr('cx', (ranking) => (that.scale(ranking.posX())) )
 		.attr('cy', (ranking) => (that.scale(ranking.posY())) )
-		.style('fill', '#000000')
-
+		.style('fill', '#000000');
+		
 	scene.filterManager.refresh();
 };
 
 Scene.prototype.undrawSystem = function() {
 	$("#critics").hide();
+	$("#criticsOrbite").hide();
 };
 
 Scene.prototype.d3GalaxySelect = function(data) {
@@ -226,7 +228,6 @@ Scene.prototype.drawCircleAround = function()
 		.style('fill', 'transparent')
 	.attr('r', 10)
 	.attr('class','movieSelected')
-
 	.attr('cx', (movie) => (this.scale(movie.pos().x)))
 	.attr('cy', (movie) => (this.scale(movie.pos().y)));
 }
@@ -234,3 +235,26 @@ Scene.prototype.drawCircleAround = function()
 Scene.prototype.undrawCircleAround = function() {
 	$("#moviesSelected").hide();
 };
+
+Scene.prototype.drawOrbiteCritics = function() {
+	this.drawOrbite(50);
+	this.drawOrbite(100);
+	this.drawOrbite(150);
+	this.drawOrbite(200);
+	this.drawOrbite(250);
+	this.drawOrbite(300);
+	this.drawOrbite(350);
+	this.drawOrbite(400);
+	this.drawOrbite(450);
+	this.drawOrbite(500);
+	}
+
+Scene.prototype.drawOrbite = function(radius)
+{
+	d3.select('#criticsOrbite').append('circle')
+			.style('stroke', 'lightgray')
+			.style('fill', 'transparent')
+		.attr('r', radius)
+		.attr('cx', this.scale(0))
+		.attr('cy', this.scale(0));
+}

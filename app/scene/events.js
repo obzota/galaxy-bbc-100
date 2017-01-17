@@ -3,14 +3,14 @@ onTitleClick = function(){
 }
 
 onRadioClick = function() {
-	// Check if we should map genre to color and update Galaxy
-	var genreSelected = document.getElementById("genreSelect").checked;
+	console.log("onRadioClick");
+	scene.colorIsGenre = document.getElementById("genreSelect").checked;
 	scene.renderGalaxy();
 
 	var genre = document.getElementById("legendGenre");
 	var geo   = document.getElementById("legendGeo");
 
-	if(genreSelected) {
+	if(scene.colorIsGenre) {
 		genre.style.display = "block";
 		geo.style.display = "none";
 	}
