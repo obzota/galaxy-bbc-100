@@ -7,7 +7,7 @@ function Scene(movies, critics) {
 
 	this.scale = d3.scaleLinear()
 	.domain([-1,1])
-	.range([10,990]);
+	.range([0,1000]);
 
 	givePosition(this.movies);
 	computeRank(this.movies);
@@ -226,17 +226,24 @@ Scene.prototype.undrawCircleAround = function() {
 };
 
 Scene.prototype.drawOrbiteCritics = function() {
+	this.drawOrbite(50);
+	this.drawOrbite(100);
+	this.drawOrbite(150);
+	this.drawOrbite(200);
+	this.drawOrbite(250);
+	this.drawOrbite(300);
+	this.drawOrbite(350);
+	this.drawOrbite(400);
+	this.drawOrbite(450);
+	this.drawOrbite(500);
+	}
+
+Scene.prototype.drawOrbite = function(radius)
+{
 	d3.select('#criticsOrbite').append('circle')
-			.style('stroke', '#00FF00')
+			.style('stroke', 'lightgray')
 			.style('fill', 'transparent')
-		.attr('r', 50)
-		.attr('cx', this.scale(0))
-		.attr('cy', this.scale(0));
-		
-			d3.select('#criticsOrbite').append('circle')
-			.style('stroke', '#00FF00')
-			.style('fill', 'transparent')
-		.attr('r', 100)
+		.attr('r', radius)
 		.attr('cx', this.scale(0))
 		.attr('cy', this.scale(0));
 }
