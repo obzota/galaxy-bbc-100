@@ -98,7 +98,8 @@ Scene.prototype.resize = function(width, heigth) {
 Scene.prototype.selectMovie = function(movie) {
 	this.movie = movie;
 	this.displayMovieInfo(movie);
-	this.updateColorMapping();
+	//this.updateColorMapping();
+	this.drawCircleAround(movie);
 };
 
 Scene.prototype.displayMovieInfo = function(movie)
@@ -173,4 +174,16 @@ updateColorMapping = function() {
 	var genreSelected = document.getElementById("genreSelect").checked;
 	d3.select('#movies').selectAll('circle')
 		.style('fill', function(movie) {return movie.color(genreSelected)});
+}
+
+
+Scene.prototype.drawCircleAround = function(movie)
+{
+	d3.select('#movies').append('circle')
+		.style('stroke', '#FF0000')
+		.style('fill', 'transparent')
+		.style('zIndex', '-1px')
+    .attr('r', 10) 
+    .attr('cx', this.scale(movie.pos().x))
+    .attr('cy', this.scale(movie.pos().y));
 }
