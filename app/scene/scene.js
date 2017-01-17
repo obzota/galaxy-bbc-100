@@ -59,14 +59,26 @@ Scene.prototype.drawGalaxy = function() {
     .attr('cy', function(movie) {return that.scale(movie.pos().y)});
 	scene.filterManager.refresh();
 
-	var radius = distance(movies[0],movies[99]);
+	// Orbites
+	var radius_100 = distance(movies[0],movies[99]);
 	d3.select('#rank').append('circle')
-			.style('stroke', '#00FF00')
+			.style('stroke', '#6F6F6B')
 			.style('fill', 'transparent')
-		.attr('r', radius * 490)
+		.attr('r', radius_100 * 490)
 		.attr('class', 'Rank100Circle')
 		.attr('cx', that.scale(movies[0].pos().x))
 		.attr('cy', that.scale(movies[0].pos().y));
+
+	var radius_10 = distance(movies[0],movies[9]);
+		d3.select('#rank').append('circle')
+				.style('stroke', '#6F6F6B')
+				.style('fill', 'transparent')
+			.attr('r', radius_10 * 490)
+			.attr('class', 'Rank100Circle')
+			.attr('cx', that.scale(movies[0].pos().x))
+			.attr('cy', that.scale(movies[0].pos().y));
+
+
 }
 
 function distance(a,b)
@@ -98,7 +110,6 @@ Scene.prototype.undrawGalaxy = function() {
 	.attr('r', 0)
 	.remove();
 
-	var genreSelected = document.getElementById("genreSelect").checked;
 	solarSystems
 	.on('click', function() {that.renderGalaxy()});
 };
