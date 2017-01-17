@@ -79,50 +79,29 @@ Movie.prototype.color = function(wantGenre) {
 		var genreMovie = this.genre;
 		genreMovie = this.parseGenre(String(this.genre));
 
-		// Unique genre, we can set color easily
-		/*
-		if (genreMovie.length == 1) {
-			if (genreMovie[0] == "Drama") {
+		// We only use the first genre to determine color
+		switch(genreMovie[0]) {
+			case "Drama":
 				color = '#000000';
-			}
-			if (genreMovie[0] == "Comedy") {
+				break;
+			case "Comedy":
 				color = '#FFFF00';
-			}
-			if (genreMovie[0] == "Romance") {
+				break;
+			case "Romance":
 				color = '#FF00BF';
-			}
-			if (genreMovie[0] == "Biography" || genreMovie[0] == "History" || genreMovie[0] == "Documentary") {
+				break;
+			case "Crime": case "Thriller":
+				color = '#848484';
+				break;
+			case "Action" : case "Adventure":
+				color = '#DF0101';
+				break;
+			case "Biography": case "History": case "Documentary":
 				color = '#31B404';
-			}
-		}
-		else {
-			if (String(this.genre).indexOf("Drama") != -1 ) {
-				color = '#A4A4A4';
-			}
-			else if (String(this.genre).indexOf("Adventure") != -1 ) {
-				color = '#0000FF';
-			}
-		}*/
-
-		var firstGenre = genreMovie[0];
-		if (firstGenre == "Drama") {
-			color = '#000000';
-		}
-		if (firstGenre == "Comedy") {
-			color = '#FFFF00';
-		}
-		if (firstGenre == "Romance") {
-			color = '#FF00BF';
-		}
-		if (firstGenre == "Crime" || firstGenre == "Thriller") {
-			color = '#848484';
-		}
-		if (firstGenre == "Action" || firstGenre == "Adventure") {
-			color = '#DF0101';
-		}
-
-		if (firstGenre == "Biography" || firstGenre == "History" || firstGenre == "Documentary") {
-			color = '#31B404';
+				break;
+			default:
+				color = '#33CCFF';
+				break;
 		}
 	}
 
@@ -135,19 +114,16 @@ Movie.prototype.color = function(wantGenre) {
 		if (String(nat).search("China|Japan|Korea|Taiwan|Singapore") != -1) {
 			color = '#FF0000';
 		}
-
 		if (String(nat).search("USA|Mexico|Peru") != -1) {
 			color = '#FFFF00';
 		}
-
 		if (String(nat).search("France|Spain|UK|Finland|Germany|Italy|Portugal|Romania|Belgium") != -1) {
 			color = '#0000FF';
 		}
-
 		if (String(nat).search("Israel|Palestine|Jordan|Iran|Egypt") != -1) {
 			color = '#0B610B';
 		}
 	}
-
+	
 	return color;
 }
