@@ -78,9 +78,6 @@ Scene.prototype.drawSystem = function(movie) {
 		.attr('cx', (ranking) => (that.scale(ranking.posX())) )
 		.attr('cy', (ranking) => (that.scale(ranking.posY())) )
 		.style('fill', '#000000')
-
-
-
 };
 
 Scene.prototype.d3GalaxySelect = function(data) {
