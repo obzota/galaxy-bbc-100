@@ -21,6 +21,7 @@ Scene.prototype.drawGalaxy = function() {
 	var that = this;
 	var selectGenre = true;
 	$("#movieSelected").show();
+	$("#rank").show();
 	this.drawCircleAround();
 	$("#critics").hide();
 
@@ -69,7 +70,8 @@ Scene.prototype.drawSystem = function(movie) {
 
 	$("#critics").show();
 	$("#moviesSelected").hide();
-
+	$("#rank").hide();
+	
 	solarSystems
 	.transition()
 	.duration(1000)
