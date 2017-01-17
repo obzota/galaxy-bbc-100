@@ -16,6 +16,7 @@ function Scene(movies, critics) {
 }
 
 Scene.prototype.drawGalaxy = function() {
+	computeRank(movies);
 	this.movie = null;
 	var that = this;
 	var selectGenre = true;
@@ -42,6 +43,7 @@ Scene.prototype.drawGalaxy = function() {
 		.attr('r', 3)
     .attr('cx', function(movie) {return that.scale(movie.pos().x)})
     .attr('cy', function(movie) {return that.scale(movie.pos().y)});
+	
 }
 
 Scene.prototype.drawSystem = function(movie) {
@@ -182,7 +184,7 @@ updateColorMapping = function() {
 }
 
 
-Scene.prototype.drawCircleAround = function(movie)
+Scene.prototype.drawCircleAround = function()
 {
 	
 	$("#moviesSelected").show();

@@ -14,7 +14,7 @@ function Movie(
 	this.poster = meta.Poster;
 	this.genre = this.parseGenre(meta.Genre);
 	this.nationality = meta.Country;
-
+	this.rank =0;
 	// ...
 
 	this.rankings = [];
@@ -31,6 +31,18 @@ function Movie(
 	});
 
 	this.histogram = this.histo();
+}
+
+function computeRank(movies)
+{
+	movies.sort(function(a, b){
+    return a.score-b.score
+	});
+
+	for (i = 0; i < movies.length; i++)
+	{
+	   movies[i].rank = i;
+	} 
 }
 
 // DONE: implement/find parser string to array
