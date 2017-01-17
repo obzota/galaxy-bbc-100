@@ -98,7 +98,6 @@ Scene.prototype.resize = function(width, heigth) {
 Scene.prototype.selectMovie = function(movie) {
 	this.movie = movie;
 	this.displayMovieInfo(movie);
-	this.updateColorMapping();
 };
 
 Scene.prototype.displayMovieInfo = function(movie)
@@ -153,6 +152,11 @@ Scene.prototype.displayMovieInfo = function(movie)
 
 	$("#svgHisto").show();
 }
+
+Scene.prototype.showCriticInfo = function(critic) {
+	
+}
+
 
 Scene.prototype.hideMovieInfo = function(movie)
 {
