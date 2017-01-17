@@ -167,6 +167,31 @@ ul {
 
 #parameters {
   position: fixed;
-  top: 3px;
+  bottom: 3px;
   left: 3px;
+}
+
+#legend {
+	background: #fff;
+	bottom: 0;
+	display: block;
+	left: 0;
+	padding: 5px;
+	position: fixed;
+}
+
+#legend ul {
+	margin: 0;
+}
+
+#legend li {
+	display: block;
+	font-size: 10px;
+	width: 100%;
+}
+
+#legend span {
+	display: inline-block;
+	height: 10px;
+	width: 10px;
 }

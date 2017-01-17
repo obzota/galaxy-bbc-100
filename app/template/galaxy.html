@@ -33,6 +33,11 @@
 </head>
 <body>
 
+	<form action="" id="parameters">
+  	<input type="radio" id="genreSelect" name="colorSelect" value="genre" onclick="onRadioClick()" checked> Genre of movies<br>
+  	<input type="radio" id="natSelect" name="colorSelect" value="nat" onclick="onRadioClick()"> Nationality<br>
+	</form>
+
 
 	<div id="template" style="display : none">
 			<div>
@@ -40,6 +45,7 @@
 			</div>
 			<div id="infoheap">
 				<div onclick="onTitleClick()">{{title}}</div>
+				<div>Rank: {{rank}}</div>
 				<div onclick="scene.filterManager.addDirectorFilter()">{{director}}</div>
 				<div onclick="scene.filterManager.addYearFilter()">{{year}}</div>
 				<div onclick="scene.filterManager.addGenreFilter()">{{genre}}</div><!-- TODO make a button by genre -->
@@ -51,6 +57,7 @@
 	<div id="app">
 		<div id="main">
 			<svg id="scene">
+				<g id="rank"></g>
 				<g id="moviesSelected"></g>
 				<g id="movies"></g>
 				<g id="critics"></g>
@@ -67,13 +74,23 @@
 		</div>
 	</div>
 
-	<div id="selectColor">
-		<form action="" id="parameters">
-			<input type="radio" id="genreSelect" name="colorSelect" value="genre" onclick="updateColorMapping()" checked> Genre of movies<br>
-			<input type="radio" id="natSelect" name="colorSelect" value="nat" onclick="updateColorMapping()"> Nationality<br>
-		</form>
+	<div id="legend">
+		<ul id="legendGenre" style="display: block;">
+			<li><span style="background: #000;"></span>    Drama</li>
+			<li><span style="background: #ff0;"></span>    Comedy</li>
+			<li><span style="background: #ff00bf;"></span> Romance</li>
+			<li><span style="background: #848484;"></span> Thriller, Crime</li>
+			<li><span style="background: #df0101;"></span> Action, Adventure</li>
+			<li><span style="background: #31b404;"></span> Biopic, History, Documentary</li>
+			<li><span style="background: #3cf;"></span>    Other</li>
+		</ul>
+		<ul id="legendGeo" style="display: none;">
+			<li><span style="background: #f00;"></span>    Asia</li>
+			<li><span style="background: #ff0;"></span>    North America</li>
+			<li><span style="background: #00f;"></span>    Europe</li>
+			<li><span style="background: #0B610B;"></span> Middle East</li>
+		</ul>
 	</div>
-
 
 </body>
 

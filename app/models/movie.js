@@ -14,7 +14,7 @@ function Movie(
 	this.poster = meta.Poster;
 	this.genre = this.parseGenre(meta.Genre);
 	this.nationality = meta.Country;
-
+	this.rank =0;
 	// ...
 
 	this.rankings = [];
@@ -31,6 +31,18 @@ function Movie(
 	});
 
 	this.histogram = this.histo();
+}
+
+function computeRank(movies)
+{
+	movies.sort(function(a, b){
+    return b.score-a.score
+	});
+
+	for (i = 0; i < movies.length; i++)
+	{
+	   movies[i].rank = i;
+	}
 }
 
 // DONE: implement/find parser string to array
@@ -63,13 +75,17 @@ Movie.prototype.histo = function() {
 	return generator(values);
 };
 
+function computeRank(movies)
+{
+	movies.sort(function(a, b){
+    return b.score-a.score
+	});
 
-compareMovies = function(a,b) {
-	return a.score - b.score;
-};
-
-
-
+	for (i = 0; i < movies.length; i++)
+	{
+	   movies[i].rank = i;
+	}
+}
 
 Movie.prototype.color = function(wantGenre) {
 	var color = '#33CCFF';
@@ -124,6 +140,6 @@ Movie.prototype.color = function(wantGenre) {
 			color = '#0B610B';
 		}
 	}
-	
+
 	return color;
 }
