@@ -32,10 +32,7 @@
 <link href="../template/galaxy.css" rel="stylesheet">
 </head>
 <body>
-	<form action="" id="parameters">
-  	<input type="radio" id="genreSelect" name="colorSelect" value="genre" onclick="updateColorMapping()" checked> Genre of movies<br>
-  	<input type="radio" id="natSelect" name="colorSelect" value="nat" onclick="updateColorMapping()"> Nationality<br>
-	</form>
+
 
 	<div id="template" style="display : none">
 			<div>
@@ -69,6 +66,14 @@
 			</div>
 		</div>
 	</div>
+
+	<div id="selectColor">
+		<form action="" id="parameters">
+			<input type="radio" id="genreSelect" name="colorSelect" value="genre" onclick="updateColorMapping()" checked> Genre of movies<br>
+			<input type="radio" id="natSelect" name="colorSelect" value="nat" onclick="updateColorMapping()"> Nationality<br>
+		</form>
+	</div>
+
 
 </body>
 
