@@ -12,6 +12,7 @@ function Scene(movies, critics) {
 	.range([10,990]);
 
 	givePosition(this.movies);
+	this.moviesSelected=[];
 }
 
 Scene.prototype.drawGalaxy = function() {
@@ -79,9 +80,6 @@ Scene.prototype.drawSystem = function(movie) {
 		.attr('cx', (ranking) => (that.scale(ranking.posX())) )
 		.attr('cy', (ranking) => (that.scale(ranking.posY())) )
 		.style('fill', '#000000')
-
-
-
 };
 
 Scene.prototype.d3GalaxySelect = function(data) {
@@ -94,6 +92,8 @@ Scene.prototype.d3GalaxySelect = function(data) {
 Scene.prototype.selectMovie = function(movie) {
 	this.movie = movie;
 	this.displayMovieInfo(movie);
+	this.moviesSelected.push(movie);
+	this.drawCircleAround(movie);
 };
 
 Scene.prototype.displayMovieInfo = function(movie)
@@ -177,4 +177,19 @@ updateColorMapping = function() {
 	var genreSelected = document.getElementById("genreSelect").checked;
 	d3.select('#movies').selectAll('circle')
 		.style('fill', function(movie) {return movie.color(genreSelected)});
+}
+
+
+Scene.prototype.drawCircleAround = function(movie)
+{
+	var previousMoviesSelected = d3.select('#moviesSelected').selectAll('.movieSelected')
+		.data(this.moviesSelected).style('stroke','lightgray');
+	
+	previousMoviesSelected.enter().append('circle')
+		.style('stroke', '#FF0000')
+		.style('fill', 'transparent')
+    .attr('r', 10) 
+	.attr('class','movieSelected')
+    .attr('cx', this.scale(movie.pos().x))
+    .attr('cy', this.scale(movie.pos().y));
 }
