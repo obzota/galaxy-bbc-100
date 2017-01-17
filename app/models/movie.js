@@ -57,9 +57,10 @@ Movie.prototype.histo = function() {
 	var values = _.map(
 		this.rankings,
 		(r) => (r.rank)
-	);
+		);
 	//return values;
-	return d3.histogram()(values);
+	var generator = d3.histogram().thresholds([1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5]);
+	return generator(values);
 };
 
 
