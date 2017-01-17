@@ -106,36 +106,63 @@ Scene.prototype.displayMovieInfo = function(movie)
 		$("#sidebar")[0].innerHTML = output;
 
 	var data = movie.histogram;
-	var width = 100,
+	var width = 400,
     height = 100;
 
 	
 var x = d3.scaleOrdinal()
+    .domain(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"])
     .range([0, width], .1);
 	
 var y = d3.scaleLinear()
     .range([height, 0]);
 
+	var xAxis = d3.axisBottom(x);
+
+var yAxis = d3.axisLeft(y);
+	
 var chart = d3.select(".chart")
     .attr("width", width)
     .attr("height", height);
 
-x.domain(data.map(function(d) { return d[0]; }));
-  y.domain([0, d3.max(data, function(d) { return d.length; })]);
+	x.domain(data.map(function(d) { return d.length; }));
+	y.domain([0, d3.max(data, function(d) { return d[0]; })]);
   
   var barWidth = width / data.length;
 
-  var bar = chart.selectAll("g")
+  chart.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  chart.append("g")
+      .attr("class", "y axis")
+      .call(yAxis);
+
+  chart.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d[0]); })
+      .attr("y", function(d) { return y(d.length); })
+      .attr("height", function(d) { return height - y(d.length); })
+      .attr("width", x.range());
+
+
+  /*var bar = chart.selectAll("g")
       .data(data)
     .enter().append("g")
-      .attr("transform", function(d, i) { return "translate(" + i * barWidth + 
-",0)"; })
+			.attr("class", "x axis")
+			.attr("transform", "translate(0,"+ height+")")
+			.call(xAxis)
+      .attr("transform", function(d, i) { return "translate(" + i * barWidth + ",0)"; })
 	.append("rect")
       .attr("y", function(d) { return y(d.length); })
       .attr("height", function(d) { return height - y(d.length); })
-      .attr("width", barWidth - 1);
+      .attr("width", barWidth - 1);*/
 
-  bar.append("text")
+
+ /* bar.append("text")
       .attr("x", barWidth / 2)
       .attr("y", function(d) { return y(d.length) + 3; })
       .attr("dy", ".75em")
@@ -143,7 +170,7 @@ x.domain(data.map(function(d) { return d[0]; }));
 
 var x = d3.scaleLinear()
     .domain([0, d3.max(data)])
-    .range([0, 100]);
+    .range([0, 100]);*/
 }
 function type(d) {
   d.value = +d.length; // coerce to number
