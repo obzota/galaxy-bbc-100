@@ -43,7 +43,7 @@ Scene.prototype.drawGalaxy = function() {
 		.attr('r', 3)
     .attr('cx', function(movie) {return that.scale(movie.pos().x)})
     .attr('cy', function(movie) {return that.scale(movie.pos().y)});
-	
+	scene.filterManager.refresh();
 }
 
 Scene.prototype.drawSystem = function(movie) {
@@ -72,9 +72,10 @@ Scene.prototype.drawSystem = function(movie) {
 	.attr('r', 0)
 	.remove();
 
+	var genreSelected = document.getElementById("genreSelect").checked;
 	solarSystems
-	.style('fill', '#000')
-	.on('click', function() {that.drawGalaxy()});
+		.style('fill', function(movie) {return movie.color(genreSelected)})
+		.on('click', function() {that.drawGalaxy()});
 
 	// critics
 	var my_critics = d3.select('#critics').selectAll('circle').data(movie.rankings);
@@ -84,6 +85,8 @@ Scene.prototype.drawSystem = function(movie) {
 		.attr('cx', (ranking) => (that.scale(ranking.posX())) )
 		.attr('cy', (ranking) => (that.scale(ranking.posY())) )
 		.style('fill', '#000000')
+
+	scene.filterManager.refresh();
 };
 
 Scene.prototype.d3GalaxySelect = function(data) {
@@ -174,30 +177,21 @@ Scene.prototype.hideCriticInfo = function(critic) {
 
 }
 
-
-
-updateColorMapping = function() {
-	// Check if we should map genre to color and update Galaxy
-	var genreSelected = document.getElementById("genreSelect").checked;
-	d3.select('#movies').selectAll('circle')
-		.style('fill', function(movie) {return movie.color(genreSelected)});
-}
-
-
 Scene.prototype.drawCircleAround = function()
 {
-	
+
 	$("#moviesSelected").show();
 	var previousMoviesSelected = d3.select('#moviesSelected').selectAll('.movieSelected')
 		.data(this.moviesSelected).style('stroke','lightgray');
-	
+
 	if(this.movie){
 		previousMoviesSelected.enter().append('circle')
 			.style('stroke', '#FF0000')
 			.style('fill', 'transparent')
-		.attr('r', 10) 
+		.attr('r', 10)
 		.attr('class','movieSelected')
 		.attr('cx', this.scale(this.movie.pos().x))
 		.attr('cy', this.scale(this.movie.pos().y));
 	}
+
 }

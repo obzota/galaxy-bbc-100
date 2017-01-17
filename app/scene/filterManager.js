@@ -11,7 +11,7 @@ function filterManager() {
 		filterListElem = document.getElementById("filterList");
 	}
 	
-	function draw() {
+	function drawList() {
 		var html = "";
 		
 		for(var i = 0; i < filterList.length; ++i) {
@@ -26,11 +26,19 @@ function filterManager() {
 		filterListElem.innerHTML = html;
 	}
 	
+	function drawCircles() {
+		d3
+			.select('#movies')
+			.selectAll('circle')
+			.style('opacity', _self.isInFilter);
+	}
+	
 	function addFilter(filter) {
 		if(isFilterActive(filter)) return;
 		
 		filterList.push(filter);
-		draw();
+		drawList();
+		drawCircles();
 	}
 	
 	function isFilterActive(filter) {
@@ -59,7 +67,41 @@ function filterManager() {
 	
 	_self.removeFilter = function(index) {
 		filterList.splice(index, 1);
-		draw();
+		drawList();
+		drawCircles();
+	}
+	
+	_self.isInFilter = function(movie) {
+		var genreFilters = 0;
+		var genreValid   = 0;
+		
+		for(var i = 0; i < filterList.length; ++i) {
+			if(filterList[i][1] === 0 && filterList[i][0] !== movie.director) {
+				return 0.1;
+			}
+			else if(filterList[i][1] === 1 && filterList[i][0] !== movie.year) {
+				return 0.1;
+			}
+			else if(filterList[i][1] === 2) {
+				genreFilters += 1;
+				
+				for(var j = 0; j< movie.genre.length; ++j) {
+					if(filterList[i][0] === movie.genre[j]) {
+						genreValid += 1;
+					}
+				}
+			}
+		}
+		
+		if(genreFilters === genreValid)
+			return 1;
+		else
+			return 0.1;
+	}
+	
+	_self.refresh = function() {
+		drawList();
+		drawCircles();
 	}
 	
 	// # Execution
