@@ -28,3 +28,15 @@ function givePosition(movies) {
 		movie.farPosition = new PolarPosition(radius+2, angle);
 	});
 }
+
+
+
+function getRankingPos(rank) {
+	var radius, angle;
+
+	var scaling = d3.scaleLinear().domain([1, 10]).range([0.1, 1]);
+	radius = scaling(rank);
+	var angle = randomAngle();
+  return new PolarPosition(radius, angle);
+
+}

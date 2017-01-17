@@ -18,6 +18,8 @@ Scene.prototype.drawGalaxy = function() {
 	var that = this;
 	var selectGenre = true;
 
+	$("#critics").hide();
+
 	var solarSystems = this.d3GalaxySelect(movies); // = d3.select('#movies').selectAll('circle').data(movies, keyFunc)
 	var enter = solarSystems.enter().append('circle'); // append new circles for movies
 	enter
@@ -34,6 +36,7 @@ Scene.prototype.drawGalaxy = function() {
     .on('mouseleave', function(movie) {that.hideMovieInfo(movie)})
     .attr('data-title', function(movie) {return movie.title})
     .transition().duration(1000)
+		.attr('r', 3)
     .attr('cx', function(movie) {return that.scale(movie.pos().x)})
     .attr('cy', function(movie) {return that.scale(movie.pos().y)});
 }
@@ -45,11 +48,14 @@ Scene.prototype.drawSystem = function(movie) {
 	var that = this;
 	var solarSystems = this.d3GalaxySelect([movie]);
 
+	$("#critics").show();
+
 	solarSystems
 	.transition()
 	.duration(1000)
 	.attr('cx', this.scale(0))
-	.attr('cy', this.scale(0));
+	.attr('cy', this.scale(0))
+	.attr('r', 12);
 
 	solarSystems
 	.exit()
@@ -63,6 +69,18 @@ Scene.prototype.drawSystem = function(movie) {
 	solarSystems
 	.style('fill', '#000')
 	.on('click', function() {that.drawGalaxy()});
+
+	// critics
+	var my_critics = d3.select('#critics').selectAll('circle').data(movie.rankings);
+	var enter = my_critics.enter().append('circle');
+	enter.merge(my_critics)
+		.attr('r', 4)
+		.attr('cx', (ranking) => (that.scale(ranking.posX())) )
+		.attr('cy', (ranking) => (that.scale(ranking.posY())) )
+		.style('fill', '#000000')
+
+
+
 };
 
 Scene.prototype.d3GalaxySelect = function(data) {
@@ -70,29 +88,6 @@ Scene.prototype.d3GalaxySelect = function(data) {
 		return movie.imdbid;
 	}
 	return this.galaxy.selectAll('circle').data(data, key);
-};
-
-Scene.prototype.zoomIn = function() {
-	if (this.movie) {return}
-		this.scaling = 1.1 * this.scaling;
-	this.scale.domain([-1/this.scaling, 1/this.scaling]);
-};
-
-Scene.prototype.zoomOut = function() {
-	if (this.movie) {return}
-		this.scaling = 0.9 * this.scaling;
-	this.scale.domain([-1/this.scaling, 1/this.scaling]);
-}
-
-Scene.prototype.reset = function() {
-	this.scaling = 1;
-	this.scale.domain([-1,1]);
-	this.drawGalaxy();
-};
-
-Scene.prototype.resize = function(width, heigth) {
-	this.size = d3.min(width, heigth);
-	this.scale.range([0, this.size]);
 };
 
 Scene.prototype.selectMovie = function(movie) {
@@ -153,11 +148,6 @@ Scene.prototype.displayMovieInfo = function(movie)
 	$("#svgHisto").show();
 }
 
-Scene.prototype.showCriticInfo = function(critic) {
-	
-}
-
-
 Scene.prototype.hideMovieInfo = function(movie)
 {
 	if(!this.movie)
@@ -170,6 +160,15 @@ Scene.prototype.hideMovieInfo = function(movie)
 		this.displayMovieInfo(this.movie);
 	}
 }
+
+Scene.prototype.displayCriticInfo = function(critic) {
+
+}
+
+Scene.prototype.hideCriticInfo = function(critic) {
+
+}
+
 
 
 updateColorMapping = function() {
