@@ -107,20 +107,19 @@ Movie.prototype.color = function(wantGenre) {
 		if (firstGenre == "Drama") {
 			color = '#000000';
 		}
-		if (firstGenre == "Comedy") {
+		else if (firstGenre == "Comedy") {
 			color = '#FFFF00';
 		}
-		if (firstGenre == "Romance") {
+		else if (firstGenre == "Romance") {
 			color = '#FF00BF';
 		}
-		if (firstGenre == "Crime" || firstGenre == "Thriller") {
+		else if (firstGenre == "Crime" || firstGenre == "Thriller") {
 			color = '#848484';
 		}
-		if (firstGenre == "Action" || firstGenre == "Adventure") {
+		else if (firstGenre == "Action" || firstGenre == "Adventure") {
 			color = '#DF0101';
 		}
-
-		if (firstGenre == "Biography" || firstGenre == "History" || firstGenre == "Documentary") {
+		else if (firstGenre == "Biography" || firstGenre == "History" || firstGenre == "Documentary") {
 			color = '#31B404';
 		}
 	}
