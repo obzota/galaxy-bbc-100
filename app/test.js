@@ -13,7 +13,7 @@ function onDbLoaded(db) {
 	initializeZoomEvents();
 }
 
-setTimeout(onDbLoaded, 1000, db); // ensure the db is loaded when we start using it
+setTimeout(onDbLoaded, 1500, db); // ensure the db is loaded when we start using it
 
 function draw() {
 	requestAnimationFrame(draw)
