@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8" />
 	<title>Galaxy BBC 100</title>
 
 	<link rel="shortcut icon" href="favicon.ico" />
@@ -17,7 +18,8 @@
 	<script type="text/javascript" src="../scene/scene.js"></script>
 	<script type="text/javascript" src="../scene/zoom.js"></script>
 	<script type="text/javascript" src="../scene/gravity.js"></script>
-	<script type="text/javascript" src="../scene/events	.js"></script>
+	<script type="text/javascript" src="../scene/events.js"></script>
+	<script type="text/javascript" src="../scene/filterManager.js"></script>
 
 	<script type="text/javascript" src="../test.js"></script>
 
@@ -30,9 +32,8 @@
 <link href="../template/galaxy.css" rel="stylesheet">
 </head>
 <body>
-	Use color for:
-	<form action="">
-  	<input type="radio" id="genreSelect" name="colorSelect" value="genre" onclick="updateColorMapping()"> Genre of movies<br>
+	<form action="" id="parameters">
+  	<input type="radio" id="genreSelect" name="colorSelect" value="genre" onclick="updateColorMapping()" checked> Genre of movies<br>
   	<input type="radio" id="natSelect" name="colorSelect" value="nat" onclick="updateColorMapping()"> Nationality<br>
 	</form>
 
@@ -42,19 +43,20 @@
 			</div>
 			<div id="infoheap">
 				<div onclick="onTitleClick()">{{title}}</div>
-				<div>{{director}}</div>
-				<div>{{year}}</div>
-				<div>{{genre}}</div><!-- TODO make a button by genre -->
+				<div onclick="scene.filterManager.addDirectorFilter()">{{director}}</div>
+				<div onclick="scene.filterManager.addYearFilter()">{{year}}</div>
+				<div onclick="scene.filterManager.addGenreFilter()">{{genre}}</div><!-- TODO make a button by genre -->
 			</div>
 	</div>
 
+	<div id="filterList"></div>
 
 	<div id="app">
 		<div id="main">
 			<svg id="scene">
+				<g id="moviesSelected"></g>
 				<g id="movies"></g>
 				<g id="critics"></g>
-				<g id="moviesSelected"></g>
 			</svg>
 		</div>
 
