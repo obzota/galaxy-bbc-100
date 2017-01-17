@@ -36,7 +36,7 @@ function Movie(
 function computeRank(movies)
 {
 	movies.sort(function(a, b){
-    return a.score-b.score
+    return b.score-a.score
 	});
 
 	for (i = 0; i < movies.length; i++)

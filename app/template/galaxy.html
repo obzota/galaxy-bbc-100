@@ -46,6 +46,7 @@
 				<div onclick="scene.filterManager.addDirectorFilter()">{{director}}</div>
 				<div onclick="scene.filterManager.addYearFilter()">{{year}}</div>
 				<div onclick="scene.filterManager.addGenreFilter()">{{genre}}</div><!-- TODO make a button by genre -->
+				<div>{{rank}}</div>
 			</div>
 	</div>
 
@@ -54,6 +55,7 @@
 	<div id="app">
 		<div id="main">
 			<svg id="scene">
+				<g id="rank"></g>
 				<g id="moviesSelected"></g>
 				<g id="movies"></g>
 				<g id="critics"></g>

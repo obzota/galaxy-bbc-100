@@ -16,7 +16,7 @@ function Scene(movies, critics) {
 }
 
 Scene.prototype.drawGalaxy = function() {
-	computeRank(movies);
+	
 	this.movie = null;
 	var that = this;
 	var selectGenre = true;
@@ -44,8 +44,22 @@ Scene.prototype.drawGalaxy = function() {
     .attr('cx', function(movie) {return that.scale(movie.pos().x)})
     .attr('cy', function(movie) {return that.scale(movie.pos().y)});
 	scene.filterManager.refresh();
+	
+	computeRank(movies);
+	var radius = distance(movies[0],movies[99]);
+	d3.select('#rank').append('circle')
+			.style('stroke', '#00FF00')
+			.style('fill', 'transparent')
+		.attr('r', radius * 490)
+		.attr('class', 'Rank100Circle')
+		.attr('cx', that.scale(movies[0].pos().x))
+		.attr('cy', that.scale(movies[0].pos().y));
 }
 
+function distance(a,b)
+{
+	return Math.sqrt(Math.pow((a.pos().x - b.pos().x),2)+Math.pow((a.pos().y - b.pos().y),2));
+}
 Scene.prototype.drawSystem = function(movie) {
 	this.movie = movie;
 	Scene.prototype.displayMovieInfo(movie);
