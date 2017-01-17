@@ -99,6 +99,11 @@ function filterManager() {
 			return 0.1;
 	}
 	
+	_self.refresh = function() {
+		drawList();
+		drawCircles();
+	}
+	
 	// # Execution
 	constructor()
 }

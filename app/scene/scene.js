@@ -42,6 +42,8 @@ Scene.prototype.drawGalaxy = function() {
 		.attr('r', 3)
     .attr('cx', function(movie) {return that.scale(movie.pos().x)})
     .attr('cy', function(movie) {return that.scale(movie.pos().y)});
+
+	scene.filterManager.refresh();
 }
 
 Scene.prototype.drawSystem = function(movie) {
@@ -83,6 +85,8 @@ Scene.prototype.drawSystem = function(movie) {
 		.attr('cx', (ranking) => (that.scale(ranking.posX())) )
 		.attr('cy', (ranking) => (that.scale(ranking.posY())) )
 		.style('fill', '#000000')
+
+	scene.filterManager.refresh();
 };
 
 Scene.prototype.d3GalaxySelect = function(data) {
