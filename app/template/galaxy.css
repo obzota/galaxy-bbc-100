@@ -14,6 +14,7 @@ html, body {
 
   display: flex;
   align-items: stretch;
+  padding-top: 40px;
 }
 
 #sidebar {
@@ -114,4 +115,52 @@ ul {
 
 .x.axis path {
   display: none;
+}
+
+#filterList {
+	display: block;
+	height: 40px;
+	left: 0;
+	padding: 5px;
+	position: fixed;
+	top: 0;
+	width: 100%;
+}
+
+.filterItem {
+	background-color: #00aaee;
+	border-radius: 5px;
+	display: inline-block;
+	height: 30px;
+	padding: 5px 30px 5px 5px;
+	position: relative;
+}
+
+.filterItem > span {
+	display: inline-block;
+	font-size: 16px;
+	height: 20px;
+}
+
+.filterItem > button {
+	background-color: #eeeeff;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+	display: inline-block;
+	height: 20px;
+	padding: 0;
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	width: 20px;
+}
+
+.filterItem > button:before {
+	content: "✖";
+	display: block;
+	left: 50%;
+	margin: -50% 0 0 -25%;
+	position: absolute;
+	top: 50%;
 }
