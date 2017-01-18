@@ -245,6 +245,9 @@ Scene.prototype.displayMovieInfo = function(movie)
 	.domain([0, d3.max(data)])
 	.range([height-2, 0]);
 
+	var x = d3.scaleOrdinal()
+		.domain([1,2,3,4,5,6,7,8,9,10]);
+		
 	var chart = d3.select(".chart")
 	.attr("width", width)
 	.attr("height", height);
@@ -256,28 +259,31 @@ Scene.prototype.displayMovieInfo = function(movie)
 		.append("g").attr("transform", function(d, index) { return "translate(" + index * barWidth + ",0)"; })
 		.append("rect");
 		
-	
-	
-		g.enter().append("text").attr("transform", function(d, index) { return "translate(" + index * barWidth + ",0)"; })
+	g.enter().append("text").attr("transform", function(d, index) { return "translate(" + index * barWidth + ",0)"; })
 		.attr("x", barWidth/2)
 		.attr("y", height/1.5)
+		.classed("value",true)
 		.attr("dy", ".75em");
 		
-		chart.selectAll("text").data(data)
-		.text(function(d) { return d; });
+		
+	g.enter().append("text").attr("transform", function(d, index) { return "translate(" + index * barWidth + ",0)"; })
+		.attr("x", barWidth/2)
+		.attr("y", height -10)
+		.attr("dy", ".75em")
+		.classed("axis",true)
+		.text(function(d,index) { return index +1; });
+		
+		chart.selectAll("text.value").data(data)
+		.classed("hidden", (d)=>(d==0))
+		.text(function(d) {return d; });
 
 	chart.selectAll("rect").data(data)
 		.transition().duration(200)
 	    .attr('x', 0)
 	    .attr('y', (d) => (y(d)))
 	    .attr('width', barWidth-2)
-	    .attr('height', function (d) {return height - y(d);});
+	    .attr('height', function (d) {return height - y(d) -12;});
 		
-      
-
-	var x = d3.scaleLinear()
-		.domain([0, d3.max(data)])
-		.range([0, 100]);
 
 	$("#svgHisto").show();
 }

@@ -108,12 +108,22 @@ ul {
   fill: steelblue;
 }
 
-.chart text {
+.chart text.value {
   fill: black;
   font: 10px sans-serif;
   text-anchor: middle;
   text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
   font-weight : bold;
+}
+
+.chart text.hidden {
+  opacity :0;
+}
+
+.chart text.axis {
+  fill: black;
+  font: 12px sans-serif;
+  text-anchor: middle;
 }
 
 .bar {
