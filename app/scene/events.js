@@ -20,14 +20,10 @@ onRadioClick = function() {
 	}
 };
 
-onTopTenClic = (function() {
-	let saveCritic = true;
-	return function() {
-		if(!saveCritic) {
-			scene.critic = null;
-		}
-		saveCritic = !saveCritic;
-		scene.renderGalaxy();
+onTopTenClic = function() {
+	if(scene.current == "galaxy") {
+		scene.critic = null;
 	}
-})();
+	scene.renderGalaxy();
+}
 
