@@ -61,13 +61,13 @@ function filterManager() {
 	
 	_self.addGenreFilter = function() {
 		for(var i = 0; i < scene.movie.genre.length; ++i) {
-			addFilter([scene.movie.genre[i], 2]);
+			addFilter([scene.movie.genre[i].trim(), 2]);
 		}
 	};
 	
 	_self.addGenreFilterLegend = function(genre) {
 			for(var i = 0; i < genre.length; ++i) {
-			addFilter([genre[i], 2]);
+			addFilter([genre[i].trim(), 2]);
 		}
 	};
 	
@@ -101,7 +101,7 @@ function filterManager() {
 				genreFilters += 1;
 				
 				for(var j = 0; j< movie.genre.length; ++j) {
-					if(filterList[i][0] === movie.genre[j]) {
+					if(filterList[i][0] === movie.genre[j].trim()) {
 						genreValid += 1;
 					}
 				}

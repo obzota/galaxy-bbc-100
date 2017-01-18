@@ -7,7 +7,7 @@ window.nationalities = [
 	{
 		name: "North America",
 		countries: ["USA", "Mexico", "Peru"],
-		color: "#FFFF00"
+		color: "#ff9019"
 	},
 	{
 		name: "Europe",
