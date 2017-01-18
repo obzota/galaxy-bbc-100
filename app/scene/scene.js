@@ -179,7 +179,7 @@ Scene.prototype.drawCriticConstellation = function() {
 		.style('stroke', 'coral')
 		.style('stroke-width', 2);
 
-	c.selectAll("line").style('stroke', 'transparent');
+	c.selectAll("line").remove();
 	var s = d3.scaleLinear().domain([1,10]).range(["red", "Navy"])
 	
 	for (var i =0; i< 9; i++)
