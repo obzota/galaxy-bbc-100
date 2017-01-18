@@ -138,6 +138,8 @@ Scene.prototype.drawSystem = function() {
 		.style('fill', '#000')
 		.on('click', function (ranking){ that.displayCriticInfo(ranking.critic) });
 
+	my_critics.exit().remove();
+
 	scene.filterManager.refresh();
 };
 
@@ -179,7 +181,18 @@ Scene.prototype.drawCriticConstellation = function() {
 		.style('stroke', 'coral')
 		.style('stroke-width', 2);
 
-	c.selectAll("lines");
+	c.selectAll("line").remove();
+	var s = d3.scaleLinear().domain([1,10]).range(["red", "Navy"])
+	
+	for (var i =0; i< 9; i++)
+	{
+		c.append('line')
+			.attr('x1', this.scale(data[i].pos().x))
+			.attr('y1', this.scale(data[i].pos().y))
+			.attr('x2', this.scale(data[i+1].pos().x))
+			.attr('y2', this.scale(data[i+1].pos().y))
+			.style('stroke', s(i));
+	}
 
 	return true;
 };
