@@ -241,9 +241,20 @@ Scene.prototype.displayMovieInfo = function(movie)
 
 	var barWidth = width / data.length;
 
-	chart.selectAll("g").data(data).enter() // bind data + one time build dom element <g><rect></rect></g>
+	var g =chart.selectAll("g").data(data);
+	g.enter() // bind data + one time build dom element <g><rect></rect></g>
 		.append("g").attr("transform", function(d, index) { return "translate(" + index * barWidth + ",0)"; })
 		.append("rect");
+		
+	
+	
+		g.enter().append("text").attr("transform", function(d, index) { return "translate(" + index * barWidth + ",0)"; })
+		.attr("x", barWidth/2)
+		.attr("y", height/1.5)
+		.attr("dy", ".75em");
+		
+		chart.selectAll("text").data(data)
+		.text(function(d) { return d; });
 
 	chart.selectAll("rect").data(data)
 		.transition().duration(200)
@@ -251,6 +262,8 @@ Scene.prototype.displayMovieInfo = function(movie)
 	    .attr('y', (d) => (y(d)))
 	    .attr('width', barWidth-2)
 	    .attr('height', function (d) {return height - y(d);});
+		
+      
 
 	var x = d3.scaleLinear()
 		.domain([0, d3.max(data)])
