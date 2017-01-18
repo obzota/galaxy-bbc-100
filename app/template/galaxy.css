@@ -23,6 +23,8 @@ html, body {
 
   align-items: center;
   justify-content: space-between;
+
+  overflow: scroll;
 }
 
 #main {
