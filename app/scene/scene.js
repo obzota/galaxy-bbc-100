@@ -297,7 +297,7 @@ Scene.prototype.drawOrbiteCritics = function() {
 Scene.prototype.drawOrbite = function(radius)
 {
 	d3.select('#criticsOrbite').append('circle')
-			.style('stroke', 'lightgray')
+			.style('stroke', 'DarkGrey ')
 			.style('fill', 'transparent')
 		.attr('r', radius)
 		.attr('cx', this.scale(0))
