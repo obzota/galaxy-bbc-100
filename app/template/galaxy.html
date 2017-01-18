@@ -6,6 +6,7 @@
 
 	<link rel="shortcut icon" href="favicon.ico" />
 
+	<script type="text/javascript" src="../const.js"></script>
 	<script type="text/javascript" src="../lib/underscore.js"></script>
 	<script type="text/javascript" src="../lib/d3.v4.js"></script>
 	<script type="text/javascript" src="../lib/mustache.js"></script>
@@ -88,16 +89,42 @@
 			<li><span style="background: #000;" onclick='scene.filterManager.addGenreFilterLegend(["Drama"])'></span>Drama</li>
 			<li><span style="background: #ff0;" onclick='scene.filterManager.addGenreFilterLegend(["Comedy"])'></span>    Comedy</li>
 			<li><span style="background: #ff00bf;" onclick='scene.filterManager.addGenreFilterLegend(["Romance"])'></span> Romance</li>
-			<li><span style="background: #848484;" onclick='scene.filterManager.addGenreFilterLegend(["Thriller","Crime"])'></span> Thriller, Crime</li>
+			<li><span style="background: #8C613B;" onclick='scene.filterManager.addGenreFilterLegend(["Thriller","Crime"])'></span> Thriller, Crime</li>
 			<li><span style="background: #df0101;" onclick='scene.filterManager.addGenreFilterLegend(["Action","Adventure"])'></span> Action, Adventure</li>
-			<li><span style="background: #31b404;" onclick='scene.filterManager.addGenreFilterLegend(["Biopic","History","Documentary"]);'></span> Biopic, History, Documentary</li>
-			<li><span style="background: #3cf;"></span>    Other</li>
+			<li><span style="background: #31b404;" onclick='scene.filterManager.addGenreFilterLegend(["Biography","History","Documentary"]);'></span> Biography, History, Documentary</li>
+			<li><span style="background: #3cf;" onclick='scene.filterManager.addGenreFilterLegend(["Animation"])'></span>    Animation</li>
+			<li><span style="background: #7E677F;"></span>    Other</li>
+
 		</ul>
 		<ul id="legendGeo" style="display: none;">
-			<li><span style="background: #f00;"></span>    Asia</li>
-			<li><span style="background: #ff0;"></span>    North America</li>
-			<li><span style="background: #00f;"></span>    Europe</li>
-			<li><span style="background: #0B610B;"></span> Middle East</li>
+			<li>
+				<span
+					style="background: #f00;"
+					onclick="scene.filterManager.addGeoFilterLegend(0)"
+				></span>
+				Asia
+			</li>
+			<li>
+				<span
+					style="background: #ff0;"
+					onclick="scene.filterManager.addGeoFilterLegend(1)"
+				></span>
+				North America
+			</li>
+			<li>
+				<span
+					style="background: #00f;"
+					onclick="scene.filterManager.addGeoFilterLegend(2)"
+				></span>
+				Europe
+			</li>
+			<li>
+				<span
+					style="background: #0B610B;"
+					onclick="scene.filterManager.addGeoFilterLegend(3)"
+				></span>
+				Middle East
+			</li>
 		</ul>
 	</div>
 

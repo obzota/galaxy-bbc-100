@@ -73,12 +73,12 @@ html, body {
 }
 
 #critic_info div {
-  background-color: coral;
+  background-color: seaGreen;
 }
 
 #critic_info .clicable:hover {
   cursor:default;
-  background-color: salmon;
+  background-color: SpringGreen;
 }
 
 #infoheap div:hover {

@@ -90,13 +90,13 @@ Movie.prototype.color = function(wantGenre) {
 				color = '#000000';
 				break;
 			case "Comedy":
-				color = '#FFFF00';
+				color = '#C6CE62';
 				break;
 			case "Romance":
 				color = '#FF00BF';
 				break;
 			case "Crime": case "Thriller":
-				color = '#848484';
+				color = '#8C613B';
 				break;
 			case "Action" : case "Adventure":
 				color = '#DF0101';
@@ -104,9 +104,11 @@ Movie.prototype.color = function(wantGenre) {
 			case "Biography": case "History": case "Documentary":
 				color = '#31B404';
 				break;
-			default:
+			case "Animation":
 				color = '#33CCFF';
 				break;
+			default:
+				color = '#7E677F';
 		}
 	}
 
@@ -116,17 +118,17 @@ Movie.prototype.color = function(wantGenre) {
 		// TODO: check if this nationality is relevant (several countries are mixed)
 		var nat = this.nationality;
 
-		if (String(nat).search("China|Japan|Korea|Taiwan|Singapore") != -1) {
-			color = '#FF0000';
+		if (String(nat).search(nationalities[0].countries.join("|")) != -1) {
+			color = nationalities[0].color;
 		}
-		if (String(nat).search("USA|Mexico|Peru") != -1) {
-			color = '#FFFF00';
+		if (String(nat).search(nationalities[1].countries.join("|")) != -1) {
+			color = nationalities[1].color;
 		}
-		if (String(nat).search("France|Spain|UK|Finland|Germany|Italy|Portugal|Romania|Belgium") != -1) {
-			color = '#0000FF';
+		if (String(nat).search(nationalities[2].countries.join("|")) != -1) {
+			color = nationalities[2].color;
 		}
-		if (String(nat).search("Israel|Palestine|Jordan|Iran|Egypt") != -1) {
-			color = '#0B610B';
+		if (String(nat).search(nationalities[3].countries.join("|")) != -1) {
+			color = nationalities[3].color;
 		}
 	}
 

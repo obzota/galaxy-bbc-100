@@ -87,8 +87,6 @@ Scene.prototype.drawGalaxy = function() {
 			.attr('class', 'Rank100Circle')
 			.attr('cx', that.scale(movies[0].pos().x))
 			.attr('cy', that.scale(movies[0].pos().y));
-
-
 }
 
 function distance(a,b)
@@ -139,8 +137,10 @@ Scene.prototype.drawSystem = function() {
 		.attr('cx', (ranking) => (that.scale(ranking.posX())) )
 		.attr('cy', (ranking) => (that.scale(ranking.posY())) )
 
-		.style('fill', ()=>(this.movie.color(scene.colorIsGenre)))
+		.style('fill', '#000')
 		.on('click', function (ranking){ that.displayCriticInfo(ranking.critic) });
+
+	my_critics.exit().remove();
 
 	scene.filterManager.refresh();
 };
@@ -184,7 +184,20 @@ Scene.prototype.drawCriticConstellation = function() {
 		.style('stroke', 'coral')
 		.style('stroke-width', 2);
 
-	c.selectAll("lines");
+	c.selectAll("line").remove();
+	var s = d3.scaleLinear().domain([1,10]).range(["red", "Navy"])
+
+	for (var i =0; i< 9; i++)
+	{
+		c.append('line')
+			.attr('x1', this.scale(data[i].pos().x))
+			.attr('y1', this.scale(data[i].pos().y))
+			.attr('x2', this.scale(data[i+1].pos().x))
+			.attr('y2', this.scale(data[i+1].pos().y))
+			.style('stroke', s(i));
+	}
+
+	return true;
 };
 
 Scene.prototype.undrawCriticConstellation = function() {
