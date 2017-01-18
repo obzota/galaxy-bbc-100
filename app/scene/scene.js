@@ -23,6 +23,8 @@ Scene.prototype.initialize = function() {
 };
 
 Scene.prototype.renderGalaxy = function() {
+	this.current = "galaxy";
+
 	this.drawGalaxy();
 
 	this.drawCircleAround();
@@ -34,6 +36,8 @@ Scene.prototype.renderGalaxy = function() {
 };
 
 Scene.prototype.renderSystem = function() {
+	this.current = "system";
+
 	this.drawSystem();
 
 	this.undrawCircleAround();
@@ -112,7 +116,7 @@ Scene.prototype.undrawGalaxy = function() {
 
 	solarSystems
 	.transition()
-	.duration(1000)
+	.duration(500)
 	.attr('cx', this.scale(0))
 	.attr('cy', this.scale(0))
 	.attr('r', 12);
@@ -120,7 +124,7 @@ Scene.prototype.undrawGalaxy = function() {
 	solarSystems
 	.exit()
 	.transition()
-	.duration(1000)
+	.duration(500)
 	.attr('cx', function(movie) {return that.scale(movie.pos().farX)})
 	.attr('cy', function(movie) {return that.scale(movie.pos().farY)})
 	.attr('r', 0)
@@ -184,12 +188,15 @@ Scene.prototype.drawCriticConstellation = function() {
 
 	circles = c.selectAll("circle").data(data);
 	circles.enter().append("circle").merge(circles)
-		.attr('r', 10)
+		.attr('r', 0)
 		.attr('cx', (movie) => (this.scale(movie.pos().x)))
 		.attr('cy', (movie) => (this.scale(movie.pos().y)))
 		.style('fill', 'transparent')
 		.style('stroke', 'coral')
-		.style('stroke-width', 2);
+		.style('stroke-width', 2)
+		.transition()
+			.delay(300)
+			.attr('r', 10);
 
 	c.selectAll("line").remove();
 	var s = d3.scaleLinear().domain([1,10]).range(["red", "Navy"])
