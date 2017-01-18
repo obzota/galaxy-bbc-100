@@ -24,9 +24,9 @@ Scene.prototype.renderGalaxy = function() {
 	this.drawCircleAround();
 	this.displayMovieInfo();
 	this.drawCriticConstellation();
+	this.displayCriticInfo();
 
 	this.undrawSystem();
-	this.hideCriticInfo();
 };
 
 Scene.prototype.renderSystem = function() {
@@ -36,6 +36,8 @@ Scene.prototype.renderSystem = function() {
 	this.undrawCriticConstellation();
 	this.undrawGalaxy();
 	this.hideMovieInfo(this.movie);
+	this.hideCriticInfo();
+
 };
 
 Scene.prototype.drawGalaxy = function() {
@@ -164,7 +166,8 @@ Scene.prototype.selectMovie = function(movie) {
 
 Scene.prototype.drawCriticConstellation = function() {
 	if (!this.critic) {
-		return false;
+		this.undrawCriticConstellation();
+		return;
 	}
 
 	$("#constellation").show();
@@ -182,8 +185,6 @@ Scene.prototype.drawCriticConstellation = function() {
 		.style('stroke-width', 2);
 
 	c.selectAll("lines");
-
-	return true;
 };
 
 Scene.prototype.undrawCriticConstellation = function() {
@@ -259,18 +260,23 @@ Scene.prototype.hideMovieInfo = function(movie)
 }
 
 Scene.prototype.displayCriticInfo = function(critic) {
-	this.critic = critic;
+	if (critic) {
+		this.critic = critic;
+	}
+
+	if (!this.critic) {
+		$("#critic_info").hide();
+		return;
+	}
+
 	$("#critic_info").show();
-	$("#infoheap").hide();
 	d3.select("#critic_info").selectAll("div").data(critic.getData())
 	.text((d) => (d));
 }
 
 Scene.prototype.hideCriticInfo = function() {
 	$("#critic_info").hide();
-	if (this.movie) {
-		$('#infoheap').show();
-	}
+	this.critic = null;
 };
 
 Scene.prototype.drawCircleAround = function()

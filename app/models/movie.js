@@ -14,7 +14,7 @@ function Movie(
 	this.poster = meta.Poster;
 	this.genre = this.parseGenre(meta.Genre);
 	this.nationality = meta.Country;
-	this.rank =0;
+	this.rank = 0;
 	// ...
 
 	this.rankings = [];
@@ -132,3 +132,15 @@ Movie.prototype.color = function(wantGenre) {
 
 	return color;
 }
+
+Movie.prototype.getData = function() {
+	let data = [
+		this.title,
+		this.director,
+		"Rank: "+this.rank,
+		this.year
+	];
+	data = _.union(data, this.genre);
+
+	return data;
+};
