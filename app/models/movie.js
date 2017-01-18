@@ -118,17 +118,17 @@ Movie.prototype.color = function(wantGenre) {
 		// TODO: check if this nationality is relevant (several countries are mixed)
 		var nat = this.nationality;
 
-		if (String(nat).search("China|Japan|Korea|Taiwan|Singapore") != -1) {
-			color = '#FF0000';
+		if (String(nat).search(nationalities[0].countries.join("|")) != -1) {
+			color = nationalities[0].color;
 		}
-		if (String(nat).search("USA|Mexico|Peru") != -1) {
-			color = '#FFFF00';
+		if (String(nat).search(nationalities[1].countries.join("|")) != -1) {
+			color = nationalities[1].color;
 		}
-		if (String(nat).search("France|Spain|UK|Finland|Germany|Italy|Portugal|Romania|Belgium") != -1) {
-			color = '#0000FF';
+		if (String(nat).search(nationalities[2].countries.join("|")) != -1) {
+			color = nationalities[2].color;
 		}
-		if (String(nat).search("Israel|Palestine|Jordan|Iran|Egypt") != -1) {
-			color = '#0B610B';
+		if (String(nat).search(nationalities[3].countries.join("|")) != -1) {
+			color = nationalities[3].color;
 		}
 	}
 
