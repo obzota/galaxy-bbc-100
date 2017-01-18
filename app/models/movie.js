@@ -104,9 +104,11 @@ Movie.prototype.color = function(wantGenre) {
 			case "Biography": case "History": case "Documentary":
 				color = '#31B404';
 				break;
-			default:
+			case "Animation":
 				color = '#33CCFF';
 				break;
+			default:
+				color = '#7E677F';
 		}
 	}
 
