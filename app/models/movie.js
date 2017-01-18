@@ -101,13 +101,13 @@ Movie.prototype.color = function(wantGenre) {
 				color = '#000000';
 				break;
 			case "Comedy":
-				color = '#FFFF00';
+				color = '#C6CE62';
 				break;
 			case "Romance":
 				color = '#FF00BF';
 				break;
 			case "Crime": case "Thriller":
-				color = '#848484';
+				color = '#4940C9';
 				break;
 			case "Action" : case "Adventure":
 				color = '#DF0101';
