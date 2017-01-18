@@ -138,6 +138,8 @@ Scene.prototype.drawSystem = function() {
 		.style('fill', '#000')
 		.on('click', function (ranking){ that.displayCriticInfo(ranking.critic) });
 
+	my_critics.exit().remove();
+
 	scene.filterManager.refresh();
 };
 
