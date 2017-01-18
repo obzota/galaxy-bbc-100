@@ -6,6 +6,7 @@
 
 	<link rel="shortcut icon" href="favicon.ico" />
 
+	<script type="text/javascript" src="../const.js"></script>
 	<script type="text/javascript" src="../lib/underscore.js"></script>
 	<script type="text/javascript" src="../lib/d3.v4.js"></script>
 	<script type="text/javascript" src="../lib/mustache.js"></script>
@@ -54,6 +55,13 @@
 
 	<div id="filterList"></div>
 
+	<div id="critic_info">
+		<div></div>
+		<div></div>
+		<div></div>
+		<div class="clicable" onclick="onTopTenClic()">Show constellation</div>
+	</div>
+
 	<div id="app">
 		<div id="main">
 			<svg id="scene">
@@ -68,13 +76,6 @@
 
 		<div id="sidebar">
 			<div id="movie_info"> <!-- will be rendered with the template-->
-			</div>
-
-			<div id="critic_info">
-				<div></div>
-				<div></div>
-				<div></div>
-				<div class="clicable" onclick="onTopTenClic()">Show constellation</div>
 			</div>
 
 			<div id="histo">
@@ -96,10 +97,34 @@
 
 		</ul>
 		<ul id="legendGeo" style="display: none;">
-			<li><span style="background: #f00;"></span>    Asia</li>
-			<li><span style="background: #ff0;"></span>    North America</li>
-			<li><span style="background: #00f;"></span>    Europe</li>
-			<li><span style="background: #0B610B;"></span> Middle East</li>
+			<li>
+				<span
+					style="background: #f00;"
+					onclick="scene.filterManager.addGeoFilterLegend(0)"
+				></span>
+				Asia
+			</li>
+			<li>
+				<span
+					style="background: #ff9019;"
+					onclick="scene.filterManager.addGeoFilterLegend(1)"
+				></span>
+				North America
+			</li>
+			<li>
+				<span
+					style="background: #00f;"
+					onclick="scene.filterManager.addGeoFilterLegend(2)"
+				></span>
+				Europe
+			</li>
+			<li>
+				<span
+					style="background: #0B610B;"
+					onclick="scene.filterManager.addGeoFilterLegend(3)"
+				></span>
+				Middle East
+			</li>
 		</ul>
 	</div>
 

@@ -12,21 +12,25 @@ function Scene(movies, critics) {
 
 	givePosition(this.movies);
 	computeRank(this.movies);
-	this.drawOrbiteCritics();
-	$("#criticsOrbite").hide();
 	this.moviesSelected=[];
 
 	this.colorIsGenre = true;
 }
 
+Scene.prototype.initialize = function() {
+	this.drawRankBounds();
+	this.drawOrbits();
+};
+
 Scene.prototype.renderGalaxy = function() {
 	this.drawGalaxy();
+
 	this.drawCircleAround();
 	this.displayMovieInfo();
 	this.drawCriticConstellation();
+	this.displayCriticInfo();
 
 	this.undrawSystem();
-	this.hideCriticInfo();
 };
 
 Scene.prototype.renderSystem = function() {
@@ -34,8 +38,10 @@ Scene.prototype.renderSystem = function() {
 
 	this.undrawCircleAround();
 	this.undrawCriticConstellation();
-	this.undrawGalaxy();
 	this.hideMovieInfo(this.movie);
+	this.hideCriticInfo();
+
+	this.undrawGalaxy();
 };
 
 Scene.prototype.drawGalaxy = function() {
@@ -66,8 +72,16 @@ Scene.prototype.drawGalaxy = function() {
     .attr('cx', function(movie) {return that.scale(movie.pos().x)})
     .attr('cy', function(movie) {return that.scale(movie.pos().y)});
 	scene.filterManager.refresh();
+}
 
-	// Orbites
+Scene.prototype.drawRankBounds = function() {
+	let that = this;
+
+	let distance = function(a,b)
+	{
+		return Math.sqrt(Math.pow((a.pos().x - b.pos().x),2)+Math.pow((a.pos().y - b.pos().y),2));
+	}
+
 	var radius_100 = distance(movies[0],movies[99]);
 	d3.select('#rank').append('circle')
 			.style('stroke', '#6F6F6B')
@@ -75,7 +89,8 @@ Scene.prototype.drawGalaxy = function() {
 		.attr('r', radius_100 * 490)
 		.attr('class', 'Rank100Circle')
 		.attr('cx', that.scale(movies[0].pos().x))
-		.attr('cy', that.scale(movies[0].pos().y));
+		.attr('cy', that.scale(movies[0].pos().y))
+		.attr("stroke-dasharray","5,5");
 
 	var radius_10 = distance(movies[0],movies[9]);
 		d3.select('#rank').append('circle')
@@ -84,14 +99,9 @@ Scene.prototype.drawGalaxy = function() {
 			.attr('r', radius_10 * 490)
 			.attr('class', 'Rank100Circle')
 			.attr('cx', that.scale(movies[0].pos().x))
-			.attr('cy', that.scale(movies[0].pos().y));
+			.attr('cy', that.scale(movies[0].pos().y))
+			.attr("stroke-dasharray","5,5");
 }
-
-function distance(a,b)
-{
-	return Math.sqrt(Math.pow((a.pos().x - b.pos().x),2)+Math.pow((a.pos().y - b.pos().y),2));
-}
-
 
 Scene.prototype.undrawGalaxy = function() {
 	$("#movieSelected").hide();
@@ -157,14 +167,14 @@ Scene.prototype.d3GalaxySelect = function(data) {
 
 Scene.prototype.selectMovie = function(movie) {
 	this.movie = movie;
-	this.critic = null;
 	this.moviesSelected.push(movie);
 	this.renderGalaxy();
 };
 
 Scene.prototype.drawCriticConstellation = function() {
 	if (!this.critic) {
-		return false;
+		this.undrawCriticConstellation();
+		return;
 	}
 
 	$("#constellation").show();
@@ -183,7 +193,7 @@ Scene.prototype.drawCriticConstellation = function() {
 
 	c.selectAll("line").remove();
 	var s = d3.scaleLinear().domain([1,10]).range(["red", "Navy"])
-	
+
 	for (var i =0; i< 9; i++)
 	{
 		c.append('line')
@@ -283,18 +293,23 @@ Scene.prototype.hideMovieInfo = function(movie)
 }
 
 Scene.prototype.displayCriticInfo = function(critic) {
-	this.critic = critic;
+	if (critic) {
+		this.critic = critic;
+	}
+
+	if (!this.critic) {
+		$("#critic_info").hide();
+		return;
+	}
+
 	$("#critic_info").show();
-	$("#infoheap").hide();
-	d3.select("#critic_info").selectAll("div").data(critic.getData())
+	d3.select("#critic_info").selectAll("div").data(this.critic.getData())
 	.text((d) => (d));
 }
 
 Scene.prototype.hideCriticInfo = function() {
 	$("#critic_info").hide();
-	if (this.movie) {
-		$('#infoheap').show();
-	}
+	this.critic = null;
 };
 
 Scene.prototype.drawCircleAround = function()
@@ -316,25 +331,13 @@ Scene.prototype.undrawCircleAround = function() {
 	$("#moviesSelected").hide();
 };
 
-Scene.prototype.drawOrbiteCritics = function() {
-	this.drawOrbite(50);
-	this.drawOrbite(100);
-	this.drawOrbite(150);
-	this.drawOrbite(200);
-	this.drawOrbite(250);
-	this.drawOrbite(300);
-	this.drawOrbite(350);
-	this.drawOrbite(400);
-	this.drawOrbite(450);
-	this.drawOrbite(500);
-	}
-
-Scene.prototype.drawOrbite = function(radius)
+Scene.prototype.drawOrbits = function()
 {
-	d3.select('#criticsOrbite').append('circle')
-			.style('stroke', 'DarkGrey ')
+	let data = [50,100,150,200,250,300,350,400,450,500];
+	d3.select('#criticsOrbite').selectAll('circle').data(data).enter().append('circle')
+			.style('stroke', 'DarkGrey')
 			.style('fill', 'transparent')
-		.attr('r', radius)
+		.attr('r', (radius)=>(radius))
 		.attr('cx', this.scale(0))
 		.attr('cy', this.scale(0));
 }

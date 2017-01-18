@@ -9,6 +9,7 @@ function onDbLoaded(db) {
 		return new Movie(obj, db.meta[index], critics);
 	});
 	scene = new Scene(movies, critics);
+	scene.initialize();
 	scene.renderGalaxy();
 	initializeZoomEvents();
 }

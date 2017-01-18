@@ -61,13 +61,20 @@ function filterManager() {
 	
 	_self.addGenreFilter = function() {
 		for(var i = 0; i < scene.movie.genre.length; ++i) {
-			addFilter([scene.movie.genre[i], 2]);
+			addFilter([scene.movie.genre[i].trim(), 2]);
 		}
 	};
 	
 	_self.addGenreFilterLegend = function(genre) {
 			for(var i = 0; i < genre.length; ++i) {
-			addFilter([genre[i], 2]);
+			addFilter([genre[i].trim(), 2]);
+		}
+	};
+	
+	_self.addGeoFilterLegend = function(geoIndex) {
+		var countries = nationalities[geoIndex].countries;
+		for(var i = 0; i < countries.length; ++i) {
+			addFilter([countries[i], 3]);
 		}
 	};
 	
@@ -80,6 +87,8 @@ function filterManager() {
 	_self.isInFilter = function(movie) {
 		var genreFilters = 0;
 		var genreValid   = 0;
+		var geoFilters   = 0;
+		var geoValid     = 0;
 		
 		for(var i = 0; i < filterList.length; ++i) {
 			if(filterList[i][1] === 0 && filterList[i][0] !== movie.director) {
@@ -92,14 +101,25 @@ function filterManager() {
 				genreFilters += 1;
 				
 				for(var j = 0; j< movie.genre.length; ++j) {
-					if(filterList[i][0] === movie.genre[j]) {
+					if(filterList[i][0] === movie.genre[j].trim()) {
 						genreValid += 1;
 					}
 				}
 			}
+			else if(filterList[i][1] === 3) {
+				var nat = movie.nationality.split(", ");
+				geoFilters += 1;
+				
+				for(var j = 0; j < nat.length; ++j) {
+					if(filterList[i][0] === nat[j]) {
+						geoValid += 1;
+					}
+				}
+				
+			}
 		}
 		
-		if(genreFilters === genreValid)
+		if(genreFilters === genreValid && geoFilters === geoValid)
 			return 1;
 		else
 			return 0.1;
