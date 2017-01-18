@@ -33,6 +33,7 @@ Scene.prototype.renderSystem = function() {
 	this.drawSystem();
 
 	this.undrawCircleAround();
+	this.undrawCriticConstellation();
 	this.undrawGalaxy();
 	this.hideMovieInfo(this.movie);
 };
@@ -154,14 +155,17 @@ Scene.prototype.d3GalaxySelect = function(data) {
 
 Scene.prototype.selectMovie = function(movie) {
 	this.movie = movie;
+	this.critic = null;
 	this.moviesSelected.push(movie);
 	this.renderGalaxy();
 };
 
 Scene.prototype.drawCriticConstellation = function() {
 	if (!this.critic) {
-		return;
+		return false;
 	}
+
+	$("#constellation").show();
 
 	var c = d3.select("#constellation");
 	data = this.critic.getTopTen();
@@ -176,6 +180,13 @@ Scene.prototype.drawCriticConstellation = function() {
 		.style('stroke-width', 2);
 
 	c.selectAll("lines");
+
+	return true;
+};
+
+Scene.prototype.undrawCriticConstellation = function() {
+	this.critic = null;
+	$("#constellation").hide();
 };
 
 Scene.prototype.displayMovieInfo = function(movie)
@@ -248,7 +259,7 @@ Scene.prototype.hideMovieInfo = function(movie)
 Scene.prototype.displayCriticInfo = function(critic) {
 	this.critic = critic;
 	$("#critic_info").show();
-	$("#movie_info").hide();
+	$("#infoheap").hide();
 	d3.select("#critic_info").selectAll("div").data(critic.getData())
 	.text((d) => (d));
 }
