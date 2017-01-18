@@ -85,8 +85,6 @@ Scene.prototype.drawGalaxy = function() {
 			.attr('class', 'Rank100Circle')
 			.attr('cx', that.scale(movies[0].pos().x))
 			.attr('cy', that.scale(movies[0].pos().y));
-
-
 }
 
 function distance(a,b)
@@ -137,7 +135,7 @@ Scene.prototype.drawSystem = function() {
 		.attr('cx', (ranking) => (that.scale(ranking.posX())) )
 		.attr('cy', (ranking) => (that.scale(ranking.posY())) )
 
-		.style('fill', ()=>(this.movie.color(scene.colorIsGenre)))
+		.style('fill', '#000')
 		.on('click', function (ranking){ that.displayCriticInfo(ranking.critic) });
 
 	scene.filterManager.refresh();
