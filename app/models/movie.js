@@ -75,17 +75,6 @@ Movie.prototype.histo = function() {
 	return generator(values);
 };
 
-function computeRank(movies)
-{
-	movies.sort(function(a, b){
-    return b.score-a.score
-	});
-
-	for (i = 0; i < movies.length; i++)
-	{
-	   movies[i].rank = i;
-	}
-}
 
 Movie.prototype.color = function(wantGenre) {
 	var color = '#33CCFF';
