@@ -65,6 +65,12 @@ function filterManager() {
 		}
 	};
 	
+	_self.addGenreFilterLegend = function(genre) {
+			for(var i = 0; i < genre.length; ++i) {
+			addFilter([genre[i], 2]);
+		}
+	};
+	
 	_self.removeFilter = function(index) {
 		filterList.splice(index, 1);
 		drawList();
